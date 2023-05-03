@@ -80,23 +80,15 @@ const navigation = {
 };
 
 export default function Home() {
-	const [name, setName] = useState("");
 	const [animalType, setAnimalType] = useState("");
 	const [animalColor, setAnimalColor] = useState("");
 	const [translatedText, setTranslatedText] = useState("");
 
 	const clearFields = async () => {
 		setTranslatedText("");
-		setName("");
 		setAnimalType("");
 		setAnimalColor("");
 	};
-
-	// const handleKeyPress = async (e) => {
-	//  if (e.keyCode === 13 || e.which === 13) {
-	//    translate();
-	//  }
-	// };
 
 	const callBackendAPI = async (prompt) => {
 		const response = await fetch("/api/replicateCall?" + prompt);
@@ -106,7 +98,7 @@ export default function Home() {
 	};
 
 	const translate = async () => {
-		const text = `prompt: ${animalColor} ${animalType} wearing royal cloths, 4k photo`;
+		const text = `${animalColor} ${animalType} wearing royal cloths, 4k photo`;
 		const result = await callBackendAPI(text);
 		setTranslatedText(result[0]);
 	};
@@ -133,51 +125,36 @@ export default function Home() {
 						</p>
 						<div className="mt-10 flex items-center gap-x-6">
 							<div className="isolate -space-y-px rounded-md shadow-sm">
-								<div className="relative rounded-md rounded-b-none px-3 pt-2.5 pb-1.5 ring-1 ring-inset ring-gray-300 focus-within:z-10 focus-within:ring-2 focus-within:ring-indigo-600">
+								<div className="relative rounded-md rounded-b-none px-3 pt-2.5 pb-1.5 ring-1 ring-inset ring-gray-300 focus-within:z-10 focus-within:ring-2">
 									<label
 										htmlFor="name"
 										className="block text-xs font-medium text-gray-900"
 									>
-										Name
+										Type of animal would you like your pet to be
 									</label>
 									<input
 										type="text"
 										name="name"
 										id="name"
 										className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-										placeholder="Mr Cuddles"
-										value={name}
-										onChange={(e) => setName(e.target.value)}
-									/>
-								</div>
-								<div className="relative rounded-md rounded-t-none px-3 pt-2.5 pb-1.5 ring-1 ring-inset ring-gray-300 focus-within:z-10 focus-within:ring-2 focus-within:ring-indigo-600">
-									<label
-										htmlFor="job-title"
-										className="block text-xs font-medium text-gray-900"
-									>
-										What kind of animal would you like your pet to be?
-									</label>
-									<input
-										type="text"
-										name="job-title"
-										id="job-title"
-										className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-										placeholder="wildcat"
+										placeholder=" wildcat"
 										value={animalType}
 										onChange={(e) => setAnimalType(e.target.value)}
 									/>
+								</div>
+								<div className="relative rounded-md rounded-t-none px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 focus-within:z-10 focus-within:ring-2 focus-within:ring-indigo-600">
 									<label
 										htmlFor="job-title"
 										className="block text-xs font-medium text-gray-900"
 									>
-										What color?
+										Animal Color
 									</label>
 									<input
 										type="text"
-										name="job-title"
-										id="job-title"
+										name="animal-color"
+										id="animal-color"
 										className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-										placeholder="blue"
+										placeholder=" blue"
 										value={animalColor}
 										onChange={(e) => setAnimalColor(e.target.value)}
 									/>
