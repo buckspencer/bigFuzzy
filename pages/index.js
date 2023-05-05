@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import logo from "../assets/logo.svg";
 import petImage from "../assets/pet_image.jpg";
 import { useState } from "react";
+import Loader from "@/components/Loader";
 
 const inter = Inter({ subsets: ["latin"] });
 const navigation = {
@@ -83,6 +84,7 @@ export default function Home() {
 	const [animalType, setAnimalType] = useState("");
 	const [animalColor, setAnimalColor] = useState("");
 	const [translatedText, setTranslatedText] = useState("");
+	const [petRequested, setPetRequested] = useState(false);
 
 	const clearFields = async () => {
 		setTranslatedText("");
@@ -91,9 +93,11 @@ export default function Home() {
 	};
 
 	const callBackendAPI = async (prompt) => {
+		setPetRequested(true);
 		const response = await fetch("/api/replicateCall?" + prompt);
 
 		const data = await response.json();
+		setPetRequested(false);
 		return data;
 	};
 
@@ -171,14 +175,18 @@ export default function Home() {
 					</div>
 				</div>
 				<div className="self-center sm:mt-24 lg:mt-10 lg:flex-shrink-0 lg:flex-grow">
-					<Image
-						src={translatedText || petImage}
-						alt="Generated Pet Image"
-						className="max-w-lg bg-gray-50 lg:inset-0 lg:aspect-auto"
-						width={500}
-						height={500}
-						priority
-					/>
+					{petRequested ? (
+						<Loader />
+					) : (
+						<Image
+							src={translatedText || petImage}
+							alt="Generated Pet Image"
+							className="max-w-lg rounded-full bg-gray-50 lg:inset-0 lg:aspect-auto"
+							width={500}
+							height={500}
+							priority
+						/>
+					)}
 				</div>
 			</div>
 			<footer className="bg-white">
