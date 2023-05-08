@@ -169,7 +169,7 @@ export default function Home() {
 								className="rounded-full bg-white py-2.5 px-4 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100"
 								onClick={translate}
 							>
-								Find dream pet
+								Generate Pet
 							</button>
 						</div>
 					</div>
