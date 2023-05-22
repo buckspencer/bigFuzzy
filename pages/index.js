@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
+import Link from "next/link";
 import Loader from "@/components/Loader";
 import logo from "../assets/logo.svg";
 import petImage from "../assets/pet_image.jpg";
@@ -101,6 +102,10 @@ export default function Home() {
     return data;
   };
 
+  const savePet = async () => {
+    return true;
+  };
+
   const translate = async () => {
     const text = `${animalColor} ${animalType} wearing royal cloths, 4k photo`;
     const result = await callBackendAPI(text);
@@ -162,6 +167,13 @@ export default function Home() {
                 onClick={translate}
               >
                 Generate Pet
+              </button>
+              <button
+                type="button"
+                className="rounded-full bg-white py-2.5 px-4 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100"
+                onClick={savePet}
+              >
+                Save Pet
               </button>
             </div>
           </div>
