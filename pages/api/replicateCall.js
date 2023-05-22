@@ -1,6 +1,6 @@
 import Replicate from "replicate";
 
-export default async function replicateCall(req, res) {
+export default async function replicateImageCall(req, res) {
 	const queryRegex = /\?([^#]+)/;
 	const parsedPrompt = queryRegex.exec(req.url);
 	const decodedPrompt = decodeURIComponent(parsedPrompt[1]);

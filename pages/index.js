@@ -94,7 +94,7 @@ export default function Home() {
 
   const callBackendAPI = async (prompt) => {
     setPetRequested(true);
-    const response = await fetch("/api/replicateCall?" + prompt);
+    const response = await fetch("/api/replicateImageCall?" + prompt);
 
     const data = await response.json();
     setPetRequested(false);
