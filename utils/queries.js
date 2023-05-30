@@ -3,3 +3,9 @@ export const allUsersQuery = () => {
 
   return query;
 };
+
+export const singlePetQuery = (petId) => {
+  const query = `*[_type == "pet" && _id == '${petId}']`;
+
+  return query;
+};
