@@ -1,22 +1,15 @@
 import { GoogleLogin, googleLogout } from "@react-oauth/google";
-import { React, useEffect, useState } from "react";
 
 import { AiOutlineLogout } from "react-icons/ai";
 import Image from "next/image";
 import Link from "next/link";
+import { React } from "react";
 import { createOrGetUser } from "@/utils";
 import logo from "../assets/logo.svg";
 import useAuthStore from "../store/authStore";
 
 const Navbar = () => {
 	const { userProfile, addUser, removeUser } = useAuthStore();
-	const [hydrated, setHydrated] = useState(false);
-
-	useEffect(() => {
-		if (userProfile) {
-			setHydrated(true);
-		}
-	}, [hydrated]);
 
 	return (
 		<>
@@ -24,30 +17,26 @@ const Navbar = () => {
 				<div className="relative flex h-16 items-center justify-between">
 					<div className="flex flex-shrink-0 items-center">
 						<Link href="/">
-							<>
-								<Image
-									src={logo}
-									alt="Pet Boutique"
-									className=""
-									style={{ width: "auto", height: "2em" }}
-								/>
-							</>
+							<Image
+								src={logo}
+								alt="Pet Boutique"
+								className=""
+								style={{ width: "auto", height: "2em" }}
+							/>
 						</Link>
 					</div>
 					<>
-						{!!userProfile ? (
+						{userProfile ? (
 							<div className="flex gap-2 md:gap-6">
-								{userProfile?.image && (
+								{userProfile.image && (
 									<Link href="/">
-										<>
-											<Image
-												width={40}
-												height={40}
-												className="rounded-full cursor-pointer"
-												src={userProfile.image}
-												alt="profile photo"
-											/>
-										</>
+										<Image
+											width={40}
+											height={40}
+											className="rounded-full cursor-pointer"
+											src={userProfile.image}
+											alt="profile photo"
+										/>
 									</Link>
 								)}
 								<button
