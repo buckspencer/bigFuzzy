@@ -11,18 +11,21 @@ import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import petImage from "../assets/pet_image.jpg";
 
 const product = {
-  name: "Enter the details for your pet's portrait",
+  name: "Your Big Fuzzy has been found",
   href: "#",
   price: "$20",
   description:
-    "Big Fuzzy will send you a handmade portrait of your marvelous creation.",
+    "Gazing out from the palace balcony, Queen Mina of the Kingdom of the Sun watched as her beloved royal cat, Kiki, played in the courtyard below. Kiki had been born in the distant land of the Moon, a place of lush forests and rolling hills, where the sun shone brightly and the stars twinkled in the night sky. \
+    Kiki had grown up in the Moon's royal palace, surrounded by the love and care of the Queen and her court. She had been taught to hunt and play, and to always show respect for her elders. She had been given the best of everything, and had grown into a beautiful and graceful cat. \
+    When Queen Mina had heard of Kiki's beauty and grace, she had sent a royal envoy to the Moon to bring Kiki to her palace in the Kingdom of the Sun. Kiki had been welcomed with open arms, and had quickly become a beloved member of the royal court. \
+    Now, as Kiki played in the courtyard, Queen Mina smiled, knowing that her beloved royal cat had found a home in her kingdom. Kiki had come a long way from the distant land of the Moon, and Queen Mina was proud to have her as part of her court.",
   imageSrc:
     "https://tailwindui.com/img/ecommerce-images/product-page-04-featured-product-shot.jpg",
   imageAlt:
     "Model wearing light green backpack with black canvas straps and front zipper pouch.",
   sizes: [
-    { name: "18L", description: "Perfect for a reasonable amount of snacks." },
-    { name: "20L", description: "Enough room for a serious amount of snacks." },
+    { name: "5x5", description: "" },
+    { name: "4x6", description: "" },
   ],
 };
 const reviews = { average: 4, totalCount: 1624 };
@@ -31,7 +34,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-const Profile = () => {
+const Profile = (props) => {
+  const { petDetails } = props;
+  const [pet, setPet] = useState(petDetails[0]);
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
 
   return (
@@ -41,7 +46,7 @@ const Profile = () => {
         <div className="lg:max-w-lg lg:self-end">
           <div className="mt-4">
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              {product.name}
+              {pet.name}
             </h1>
           </div>
 
@@ -54,120 +59,13 @@ const Profile = () => {
               <p className="text-lg text-gray-900 sm:text-xl">
                 {product.price}
               </p>
-
-              <div className="ml-4 border-l border-gray-300 pl-4">
-                <h2 className="sr-only">Reviews</h2>
-                <div className="flex items-center">
-                  <div>
-                    <div className="flex items-center">
-                      {[0, 1, 2, 3, 4].map((rating) => (
-                        <StarIcon
-                          key={rating}
-                          className={classNames(
-                            reviews.average > rating
-                              ? "text-yellow-400"
-                              : "text-gray-300",
-                            "h-5 w-5 flex-shrink-0"
-                          )}
-                          aria-hidden="true"
-                        />
-                      ))}
-                    </div>
-                    <p className="sr-only">{reviews.average} out of 5 stars</p>
-                  </div>
-                  <p className="ml-2 text-sm text-gray-500">
-                    {reviews.totalCount} reviews
-                  </p>
-                </div>
-              </div>
             </div>
 
             <div className="mt-4 space-y-6">
-              <p className="text-base text-gray-500">{product.description}</p>
+              <p className="text-base text-gray-500">{pet.originStory}</p>
             </div>
 
-            <div class="flex">
-              <div className="flex  mt-5">
-                <label
-                  htmlFor="last-name"
-                  className="block mt-3 text-sm font-medium leading-6 text-black"
-                >
-                  First name
-                </label>
-                <div className="mt-2 ml-2">
-                  <input
-                    type="text"
-                    name="first-name"
-                    id="first-name"
-                    autoComplete="given-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-
-              <div className="flex mt-5 ml-2 ">
-                <label
-                  htmlFor="last-name"
-                  className="block mt-3 text-sm font-medium leading-6 text-black"
-                >
-                  Last name
-                </label>
-                <div className="mt-2 ml-2">
-                  <input
-                    type="text"
-                    name="last-name"
-                    id="last-name"
-                    autoComplete="family-name"
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex w-full mt-4">
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium leading-6 text-black"
-              >
-                Origin
-              </label>
-            </div>
-            <div className="flex mt-2">
-              <label
-                htmlFor="city"
-                className="block mt-3 text-sm font-medium leading-6 text-gray-900"
-              >
-                City/State
-              </label>
-              <div className="mt-2 ml-2 mr-2">
-                <input
-                  type="text"
-                  name="city"
-                  id="city"
-                  autoComplete="address-level2"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-
-              <label
-                htmlFor="email"
-                className="block mt-3 text-sm font-medium leading-6 text-black"
-              >
-                Country
-              </label>
-              <div className="mt-2 ml-2 w-1/3">
-                <select
-                  id="country"
-                  name="country"
-                  autoComplete="country-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                >
-                  <option>United States</option>
-                  <option>Canada</option>
-                  <option>Mexico</option>
-                </select>
-              </div>
-            </div>
+            <div className="flex"></div>
           </section>
         </div>
 
@@ -175,7 +73,7 @@ const Profile = () => {
         <div className="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
           <div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg">
             <Image
-              src={petImage}
+              src={pet.image}
               alt="Generated Pet Image"
               className="h-full w-full object-cover object-center"
               width={500}
@@ -197,7 +95,7 @@ const Profile = () => {
                 {/* Size selector */}
                 <RadioGroup value={selectedSize} onChange={setSelectedSize}>
                   <RadioGroup.Label className="block text-sm font-medium text-gray-700">
-                    Size
+                    Canvas Size
                   </RadioGroup.Label>
                   <div className="mt-1 grid grid-cols-1 gap-4 sm:grid-cols-2">
                     {product.sizes.map((size) => (
@@ -243,18 +141,7 @@ const Profile = () => {
                   </div>
                 </RadioGroup>
               </div>
-              <div className="mt-4">
-                <a
-                  href="#"
-                  className="group inline-flex text-sm text-gray-500 hover:text-gray-700"
-                >
-                  <span>What size should I buy?</span>
-                  <QuestionMarkCircleIcon
-                    className="ml-2 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                    aria-hidden="true"
-                  />
-                </a>
-              </div>
+
               <div className="mt-10">
                 <button
                   type="submit"
