@@ -1,4 +1,3 @@
-import { BASE_URL } from "../utils";
 import axios from "axios";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
