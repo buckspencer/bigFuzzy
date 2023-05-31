@@ -185,65 +185,88 @@ export default function Home() {
       <div className="mx-auto max-w-7xl lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8">
         <div className="px-6 pt-10 lg:col-span-7 lg:px-0 xl:col-span-6">
           <div className="mx-auto max-w-2xl lg:mx-0">
-            <h1 className="mt-24 text-4xl font-bold tracking-tight text-gray-900 sm:mt-10 sm:text-6xl">
-              Utilize the power of AI to create your dream pet
+            <h1 className="mt-24 text-4xl font-bold tracking-tight text-gray-900 sm:mt-10">
+              Big Fuzzy: Tokenized Royal Pet Portraits with Value!
             </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Use our dream pet creation wizard to create a unique dream pet who
-              will keep you digitally comforted for all eternity
-            </p>
-            <div className="mt-10 flex items-center gap-x-6">
-              <div className="isolate -space-y-px rounded-md shadow-sm">
-                <div className="relative rounded-md rounded-b-none px-3 pt-2.5 pb-1.5 ring-1 ring-inset ring-gray-300 focus-within:z-10 focus-within:ring-2">
-                  <label
-                    htmlFor="name"
-                    className="block text-xs font-medium text-gray-900"
+            {userProfile ? (
+              <p className="mt-6 text-lg leading-8 text-gray-600">
+                Create digital royal pet portraits with Big Fuzzy. Each artwork
+                is tokenized for authenticity. Get the complete package: digital
+                portrait, origin story, canvas print, and stamped medallion.
+                Store, trade, and display securely. Experience the intersection
+                of art, blockchain, and royal pets. Unleash their regal value
+                with Big Fuzzy. Start your journey today!
+              </p>
+            ) : (
+              <p className="mt-6 text-lg leading-8 text-gray-600">
+                Welcome to Big Fuzzy, where we create tokenized digital royal
+                pet portraits with NFT-like value. Each artwork is tokenized
+                with a unique ID, ensuring authenticity. Our package includes
+                the tokenized digital portrait, an origin story, a canvas
+                portrait, and a stamped medallion. Store, trade, and display the
+                NFT and its token ID securely. Experience art, blockchain, and
+                personalized royal pets with Big Fuzzy. Capture the regal
+                essence, unlock their value, and proudly display the token ID
+                and medallion. Start your journey today and join the revolution
+                of tokenized royal pet portraits with Big Fuzzy.
+              </p>
+            )}
+            <div className="mt-10">
+              {userProfile && (
+                <div className="flex items-center justify-between">
+                  <div className="space-y-3">
+                    <label
+                      htmlFor="animal-type"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Type of Animal
+                    </label>
+                    <input
+                      type="text"
+                      name="animal-type"
+                      id="animal-type"
+                      className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      placeholder="e.g., wildcat"
+                      value={animalType}
+                      onChange={(e) => setAnimalType(e.target.value)}
+                    />
+                  </div>
+                  <div className="space-y-3">
+                    <label
+                      htmlFor="animal-color"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Animal Color
+                    </label>
+                    <input
+                      type="text"
+                      name="animal-color"
+                      id="animal-color"
+                      className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                      placeholder="e.g., blue"
+                      value={animalColor}
+                      onChange={(e) => setAnimalColor(e.target.value)}
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    onClick={triggerNewPetSequence}
                   >
-                    Type of animal would you like your pet to be
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    id="name"
-                    className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder=" wildcat"
-                    value={animalType}
-                    onChange={(e) => setAnimalType(e.target.value)}
-                  />
+                    Generate Pet
+                  </button>
+                  {savable && (
+                    <button
+                      type="button"
+                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+                      onClick={savePet}
+                      hidden={!savable}
+                    >
+                      Save Pet
+                    </button>
+                  )}
                 </div>
-                <div className="relative rounded-md rounded-t-none px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 focus-within:z-10 focus-within:ring-2 focus-within:ring-indigo-600">
-                  <label
-                    htmlFor="job-title"
-                    className="block text-xs font-medium text-gray-900"
-                  >
-                    Animal Color
-                  </label>
-                  <input
-                    type="text"
-                    name="animal-color"
-                    id="animal-color"
-                    className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                    placeholder="blue"
-                    value={animalColor}
-                    onChange={(e) => setAnimalColor(e.target.value)}
-                  />
-                </div>
-              </div>
-              <button
-                type="button"
-                className="rounded-full bg-white py-2.5 px-4 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100"
-                onClick={triggerNewPetSequence}
-              >
-                Generate Pet
-              </button>
-              <button
-                type="button"
-                className="rounded-full bg-white py-2.5 px-4 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100"
-                onClick={savePet}
-                hidden={!savable}
-              >
-                Save Pet
-              </button>
+              )}
             </div>
           </div>
         </div>
@@ -262,6 +285,7 @@ export default function Home() {
           )}
         </div>
       </div>
+
       <footer className="bg-white">
         <div className="mx-auto max-w-7xl overflow-hidden py-5 px-6 sm:py-24 lg:px-8">
           <nav
