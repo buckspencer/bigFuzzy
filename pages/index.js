@@ -4,6 +4,8 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import Link from "next/link";
 import Loader from "@/components/Loader";
+import TypewriterLoader from "@/components/TypewriterLoader";
+import crown from "../assets/crown.svg";
 import logo from "../assets/logo.svg";
 import petImage from "../assets/pet_image.jpg";
 import useAuthStore from "../store/authStore";
@@ -12,314 +14,347 @@ import { useRouter } from "next/router";
 const inter = Inter({ subsets: ["latin"] });
 
 const navigation = {
-  main: [
-    { name: "About", href: "#" },
-    { name: "Blog", href: "#" },
-    { name: "Jobs", href: "#" },
-    { name: "Press", href: "#" },
-    { name: "Accessibility", href: "#" },
-    { name: "Partners", href: "#" },
-  ],
-  social: [
-    {
-      name: "Facebook",
-      href: "#",
-      icon: (props) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          <path
-            fillRule="evenodd"
-            d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "Instagram",
-      href: "#",
-      icon: (props) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          <path
-            fillRule="evenodd"
-            d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "Twitter",
-      href: "#",
-      icon: (props) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
-        </svg>
-      ),
-    },
-    {
-      name: "GitHub",
-      href: "#",
-      icon: (props) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          <path
-            fillRule="evenodd"
-            d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-    {
-      name: "YouTube",
-      href: "#",
-      icon: (props) => (
-        <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
-          <path
-            fillRule="evenodd"
-            d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z"
-            clipRule="evenodd"
-          />
-        </svg>
-      ),
-    },
-  ],
+	main: [
+		{ name: "About", href: "#" },
+		{ name: "Blog", href: "#" },
+		{ name: "Jobs", href: "#" },
+		{ name: "Press", href: "#" },
+		{ name: "Accessibility", href: "#" },
+		{ name: "Partners", href: "#" },
+	],
+	social: [
+		{
+			name: "Facebook",
+			href: "#",
+			icon: (props) => (
+				<svg fill="currentColor" viewBox="0 0 24 24" {...props}>
+					<path
+						fillRule="evenodd"
+						d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"
+						clipRule="evenodd"
+					/>
+				</svg>
+			),
+		},
+		{
+			name: "Instagram",
+			href: "#",
+			icon: (props) => (
+				<svg fill="currentColor" viewBox="0 0 24 24" {...props}>
+					<path
+						fillRule="evenodd"
+						d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"
+						clipRule="evenodd"
+					/>
+				</svg>
+			),
+		},
+		{
+			name: "Twitter",
+			href: "#",
+			icon: (props) => (
+				<svg fill="currentColor" viewBox="0 0 24 24" {...props}>
+					<path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+				</svg>
+			),
+		},
+		{
+			name: "GitHub",
+			href: "#",
+			icon: (props) => (
+				<svg fill="currentColor" viewBox="0 0 24 24" {...props}>
+					<path
+						fillRule="evenodd"
+						d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
+						clipRule="evenodd"
+					/>
+				</svg>
+			),
+		},
+		{
+			name: "YouTube",
+			href: "#",
+			icon: (props) => (
+				<svg fill="currentColor" viewBox="0 0 24 24" {...props}>
+					<path
+						fillRule="evenodd"
+						d="M19.812 5.418c.861.23 1.538.907 1.768 1.768C21.998 8.746 22 12 22 12s0 3.255-.418 4.814a2.504 2.504 0 0 1-1.768 1.768c-1.56.419-7.814.419-7.814.419s-6.255 0-7.814-.419a2.505 2.505 0 0 1-1.768-1.768C2 15.255 2 12 2 12s0-3.255.417-4.814a2.507 2.507 0 0 1 1.768-1.768C5.744 5 11.998 5 11.998 5s6.255 0 7.814.418ZM15.194 12 10 15V9l5.194 3Z"
+						clipRule="evenodd"
+					/>
+				</svg>
+			),
+		},
+	],
 };
 
 export default function Home() {
-  const { userProfile } = useAuthStore();
-  const [animalType, setAnimalType] = useState("wildcat");
-  const [animalColor, setAnimalColor] = useState("blue");
-  const [originStory, setOriginStory] = useState({});
-  const [savable, setSavable] = useState(false);
-  const [image, setImage] = useState("");
-  const [petRequested, setPetRequested] = useState(false);
-  const router = useRouter();
+	const { userProfile } = useAuthStore();
+	const [animalType, setAnimalType] = useState("");
+	const [animalColor, setAnimalColor] = useState("");
+	const [originStory, setOriginStory] = useState({});
+	const [savable, setSavable] = useState(false);
+	const [image, setImage] = useState("");
+	const [petRequested, setPetRequested] = useState(false);
+	const router = useRouter();
 
-  const clearFields = async () => {
-    setImage("");
-    setAnimalType("");
-    setAnimalColor("");
-    setOriginStory("");
-  };
+	const clearFields = async () => {
+		setImage("");
+		setAnimalType("");
+		setAnimalColor("");
+		setOriginStory("");
+	};
 
-  const generatePet = async (prompt) => {
-    clearFields;
-    setPetRequested(true);
-    getStory(animalType);
+	const generatePet = async (prompt) => {
+		clearFields;
+		setPetRequested(true);
+		getStory(animalType);
 
-    const response = await fetch("/api/replicateImageCall?" + prompt);
-    const data = await response.json();
-    setPetRequested(false);
+		const response = await fetch("/api/replicateImageCall?" + prompt);
+		const data = await response.json();
+		setPetRequested(false);
 
-    return data;
-  };
+		return data;
+	};
 
-  const createPet = async (pet) => {
-    try {
-      const response = await fetch("/api/createPet", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(pet),
-      });
+	const createPet = async (pet) => {
+		try {
+			const response = await fetch("/api/createPet", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(pet),
+			});
 
-      if (response.ok) {
-        const { _id } = await response.json();
+			if (response.ok) {
+				const { _id } = await response.json();
 
-        // console.log("Pet created successfully!");
-        // console.log("ID:", _id);
+				// console.log("Pet created successfully!");
+				// console.log("ID:", _id);
 
-        router.push(`/build/${_id}`);
-      } else {
-        console.error("Failed to create pet:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error creating pet:", error);
-    }
-  };
+				router.push(`/build/${_id}`);
+			} else {
+				console.error("Failed to create pet:", response.statusText);
+			}
+		} catch (error) {
+			console.error("Error creating pet:", error);
+		}
+	};
 
-  const getStory = async (animalType) => {
-    try {
-      const response = await fetch(
-        `/api/getPetOriginStory?animalType=${animalType}`
-      );
-      const data = await response.json();
-      setOriginStory(data);
-    } catch (error) {
-      console.error("Error fetching pet origin story:", error);
-    }
-  };
+	const getStory = async (animalType) => {
+		try {
+			const response = await fetch(
+				`/api/getPetOriginStory?animalType=${animalType}`
+			);
+			const data = await response.json();
+			setOriginStory(data);
+		} catch (error) {
+			console.error("Error fetching pet origin story:", error);
+		}
+	};
 
-  const savePet = () => {
-    const pet = {
-      _type: "pet",
-      name: originStory.name,
-      image: image,
-      originStory: originStory.story,
-      createdBy: {
-        _type: "createdBy",
-        _ref: userProfile?._id,
-      },
-    };
+	const savePet = () => {
+		const pet = {
+			_type: "pet",
+			name: originStory.name,
+			image: image,
+			originStory: originStory.story,
+			createdBy: {
+				_type: "createdBy",
+				_ref: userProfile?._id,
+			},
+		};
 
-    createPet(pet);
-  };
+		createPet(pet);
+	};
 
-  const triggerNewPetSequence = async () => {
-    const text = `${animalColor} ${animalType} wearing royal cloths, 4k photo`;
-    const result = await generatePet(text);
-    setImage(result[0]);
-  };
+	const triggerNewPetSequence = async () => {
+		const text = `${animalColor} ${animalType} wearing royal cloths, 4k photo`;
+		const result = await generatePet(text);
+		setImage(result[0]);
+	};
 
-  useEffect(() => {
-    if (originStory && Object.keys(originStory).length !== 0 && image) {
-      setSavable(true);
-    } else {
-      setSavable(false);
-    }
-  }, [originStory, image]);
+	useEffect(() => {
+		if (originStory && Object.keys(originStory).length !== 0 && image) {
+			setSavable(true);
+		} else {
+			setSavable(false);
+		}
+	}, [originStory, image]);
 
-  return (
-    <main className="bg-white">
-      <div className="mx-auto max-w-7xl lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8">
-        <div className="px-6 pt-10 lg:col-span-7 lg:px-0 xl:col-span-6">
-          <div className="mx-auto max-w-2xl lg:mx-0">
-            <h1 className="mt-24 text-4xl font-bold tracking-tight text-gray-900 sm:mt-10">
-              Big Fuzzy: Tokenized Royal Pet Portraits with Value!
-            </h1>
-            {userProfile ? (
-              <p className="mt-6 text-lg leading-8 text-gray-600">
-                Create digital royal pet portraits with Big Fuzzy. Each artwork
-                is tokenized for authenticity. Get the complete package: digital
-                portrait, origin story, canvas print, and stamped medallion.
-                Store, trade, and display securely. Experience the intersection
-                of art, blockchain, and royal pets. Unleash their regal value
-                with Big Fuzzy. Start your journey today!
-              </p>
-            ) : (
-              <p className="mt-6 text-lg leading-8 text-gray-600">
-                Welcome to Big Fuzzy, where we create tokenized digital royal
-                pet portraits with NFT-like value. Each artwork is tokenized
-                with a unique ID, ensuring authenticity. Our package includes
-                the tokenized digital portrait, an origin story, a canvas
-                portrait, and a stamped medallion. Store, trade, and display the
-                NFT and its token ID securely. Experience art, blockchain, and
-                personalized royal pets with Big Fuzzy. Capture the regal
-                essence, unlock their value, and proudly display the token ID
-                and medallion. Start your journey today and join the revolution
-                of tokenized royal pet portraits with Big Fuzzy.
-              </p>
-            )}
-            <div className="mt-10">
-              {userProfile && (
-                <div className="flex items-center justify-between">
-                  <div className="space-y-3">
-                    <label
-                      htmlFor="animal-type"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Type of Animal
-                    </label>
-                    <input
-                      type="text"
-                      name="animal-type"
-                      id="animal-type"
-                      className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="e.g., wildcat"
-                      value={animalType}
-                      onChange={(e) => setAnimalType(e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-3">
-                    <label
-                      htmlFor="animal-color"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Animal Color
-                    </label>
-                    <input
-                      type="text"
-                      name="animal-color"
-                      id="animal-color"
-                      className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                      placeholder="e.g., blue"
-                      value={animalColor}
-                      onChange={(e) => setAnimalColor(e.target.value)}
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    onClick={triggerNewPetSequence}
-                  >
-                    Generate Pet
-                  </button>
-                  {savable && (
-                    <button
-                      type="button"
-                      className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                      onClick={savePet}
-                      hidden={!savable}
-                    >
-                      Save Pet
-                    </button>
-                  )}
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="self-center sm:mt-24 lg:mt-10 lg:flex-shrink-0 lg:flex-grow">
-          {petRequested ? (
-            <Loader />
-          ) : (
-            <Image
-              src={image || petImage}
-              alt="Generated Pet Image"
-              className="max-w-lg rounded-full bg-gray-50 lg:inset-0 lg:aspect-auto"
-              width={500}
-              height={500}
-              priority
-            />
-          )}
-        </div>
-      </div>
+	return (
+		<main className="bg-[#B6D6CC]">
+			<div className="mx-auto max-w-7xl lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8">
+				<div className="px-6 pt-10 lg:col-span-7 lg:px-0 xl:col-span-6">
+					<div className="mx-auto max-w-2xl lg:mx-0">
+						{userProfile ? (
+							image && !savable ? (
+								<TypewriterLoader />
+							) : savable ? (
+								<>
+									<h1 className="mt-24 text-4xl font-bold tracking-tight text-gray-900 sm:mt-10 relative">
+										Is{" "}
+										<Image
+											src={crown}
+											alt="Crown"
+											width={24}
+											height={24}
+											className="absolute -top-4 left-8"
+										/>
+										<span className="text-[#B388EB] font-bold">
+											{originStory.name}
+										</span>{" "}
+										the Big Fuzzy you were looking for?!{" "}
+									</h1>
+									<p className="text-gray-700 mt-3">{originStory.story}</p>
+								</>
+							) : (
+								<>
+									<h1 className="mt-24 text-4xl font-bold tracking-tight text-gray-900 sm:mt-10">
+										Big Fuzzy: Tokenized Royal Pet Portraits with Value!
+									</h1>
+									<div className="text-gray-700">
+										<p>Create your Big Fuzzy pet in 4 simple steps:</p>
+										<ol className="list-decimal pl-6 mt-4 mb-3">
+											<li>Enter animal type</li>
+											<li>Select animal color</li>
+											<li>Click "Generate Pet"</li>
+											<li>If you find your Big Fuzzy, click "Save Pet!"</li>
+										</ol>
+										<p>
+											Experience the magic of tokenized royal pet portraits with
+											Big Fuzzy. Own a unique piece of art, securely stored and
+											tradable on the blockchain. Start your journey today!
+										</p>
+									</div>
+								</>
+							)
+						) : (
+							<p className="mt-6 text-lg leading-8 text-gray-600">
+								Create digital royal pet portraits with Big Fuzzy. Each artwork
+								is tokenized for authenticity. Get the complete package: digital
+								portrait, origin story, canvas print, and stamped medallion.
+								Store, trade, and display securely. Experience the intersection
+								of art, blockchain, and royal pets. Unleash their regal value
+								with Big Fuzzy. Start your journey today!
+							</p>
+						)}
 
-      <footer className="bg-white">
-        <div className="mx-auto max-w-7xl overflow-hidden py-5 px-6 sm:py-24 lg:px-8">
-          <nav
-            className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
-            aria-label="Footer"
-          >
-            {navigation.main.map((item) => (
-              <div key={item.name} className="pb-6">
-                <a
-                  href={item.href}
-                  className="text-sm leading-6 text-gray-600 hover:text-gray-900"
-                >
-                  {item.name}
-                </a>
-              </div>
-            ))}
-          </nav>
-          <div className="mt-10 flex justify-center space-x-10">
-            {navigation.social.map((item) => (
-              <a
-                key={item.name}
-                href={item.href}
-                className="text-gray-400 hover:text-gray-500"
-              >
-                <span className="sr-only">{item.name}</span>
-                <item.icon className="h-6 w-6" aria-hidden="true" />
-              </a>
-            ))}
-          </div>
-          <p className="mt-10 text-center text-xs leading-5 text-gray-500">
-            &copy; 2023 Big Fuzzy, Inc. All rights reserved.
-          </p>
-        </div>
-      </footer>
-    </main>
-  );
+						<div className="mt-10">
+							{userProfile && (
+								<>
+									<div className="items-center justify-between">
+										<div className="">
+											<label
+												htmlFor="animal-type"
+												className="block text-sm font-medium text-gray-700"
+											>
+												Type of Animal
+											</label>
+											<input
+												type="text"
+												name="animal-type"
+												id=""
+												className="rounded-md border-0 pl-2 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
+												placeholder="e.g., wild cat"
+												value={animalType}
+												onChange={(e) => setAnimalType(e.target.value)}
+											/>
+										</div>
+										<div className="mt-3">
+											<label
+												htmlFor="animal-color"
+												className="block text-sm font-medium text-gray-700"
+											>
+												Animal Color
+											</label>
+											<input
+												type="text"
+												name="animal-color"
+												id="animal-color"
+												className="rounded-md border-0 pl-2 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
+												placeholder="e.g., blue"
+												value={animalColor}
+												onChange={(e) => setAnimalColor(e.target.value)}
+											/>
+										</div>
+									</div>
+									<div className="flex gap-x-5 mt-6">
+										<button
+											type="button"
+											className="items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-black bg-[#F1FEC6] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:black disabled:opacity-25"
+											onClick={triggerNewPetSequence}
+											disabled={(animalColor || animalType) === ""}
+										>
+											Generate Pet
+										</button>
+
+										{savable && (
+											<button
+												type="button"
+												className="items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#FA9F42] hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+												onClick={savePet}
+												hidden={!savable}
+											>
+												Save Pet!
+											</button>
+										)}
+									</div>
+								</>
+							)}
+						</div>
+					</div>
+				</div>
+				<div className="self-center sm:mt-24 lg:mt-10 lg:flex-shrink-0 lg:flex-grow">
+					{petRequested ? (
+						<Loader />
+					) : (
+						<Image
+							src={image || petImage}
+							alt="Generated Pet Image"
+							className="max-w-lg rounded-full bg-gray-50 border-double border-2 lg:inset-0 lg:aspect-auto"
+							width={500}
+							height={500}
+							priority
+						/>
+					)}
+				</div>
+			</div>
+
+			<footer className="bg-[#B6D6CC]">
+				<div className="mx-auto max-w-7xl overflow-hidden py-5 px-6 sm:py-24 lg:px-8">
+					<nav
+						className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
+						aria-label="Footer"
+					>
+						{navigation.main.map((item) => (
+							<div key={item.name} className="pb-6">
+								<a
+									href={item.href}
+									className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+								>
+									{item.name}
+								</a>
+							</div>
+						))}
+					</nav>
+					<div className="mt-10 flex justify-center space-x-10">
+						{navigation.social.map((item) => (
+							<a
+								key={item.name}
+								href={item.href}
+								className="text-gray-400 hover:text-gray-500"
+							>
+								<span className="sr-only">{item.name}</span>
+								<item.icon className="h-6 w-6" aria-hidden="true" />
+							</a>
+						))}
+					</div>
+					<p className="mt-10 text-center text-xs leading-5 text-gray-500">
+						&copy; 2023 Big Fuzzy, Inc. All rights reserved.
+					</p>
+				</div>
+			</footer>
+		</main>
+	);
 }
