@@ -218,8 +218,10 @@ export default function Home() {
 										<ol className="list-decimal pl-6 mt-4 mb-3">
 											<li>Enter animal type</li>
 											<li>Select animal color</li>
-											<li>Click "Generate Pet"</li>
-											<li>If you find your Big Fuzzy, click "Save Pet!"</li>
+											<li>Click &quot;Generate Pet&quot;</li>
+											<li>
+												If you find your Big Fuzzy, click &quot;Save Pet!&quot;
+											</li>
 										</ol>
 										<p>
 											Experience the magic of tokenized royal pet portraits with
