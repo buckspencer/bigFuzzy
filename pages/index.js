@@ -1,11 +1,18 @@
+import { useEffect, useState } from "react";
+
 import Image from "next/image";
 import { Inter } from "next/font/google";
+import Link from "next/link";
+import Loader from "@/components/Loader";
+import TypewriterLoader from "@/components/TypewriterLoader";
+import crown from "../assets/crown.svg";
 import logo from "../assets/logo.svg";
 import petImage from "../assets/pet_image.jpg";
-import { useState } from "react";
-import Loader from "@/components/Loader";
+import useAuthStore from "../store/authStore";
+import { useRouter } from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
+
 const navigation = {
 	main: [
 		{ name: "About", href: "#" },
@@ -81,96 +88,222 @@ const navigation = {
 };
 
 export default function Home() {
+	const { userProfile } = useAuthStore();
 	const [animalType, setAnimalType] = useState("");
 	const [animalColor, setAnimalColor] = useState("");
-	const [translatedText, setTranslatedText] = useState("");
+	const [originStory, setOriginStory] = useState({});
+	const [savable, setSavable] = useState(false);
+	const [image, setImage] = useState("");
 	const [petRequested, setPetRequested] = useState(false);
+	const router = useRouter();
 
 	const clearFields = async () => {
-		setTranslatedText("");
+		setImage("");
 		setAnimalType("");
 		setAnimalColor("");
+		setOriginStory("");
 	};
 
-	const callBackendAPI = async (prompt) => {
+	const generatePet = async (prompt) => {
+		clearFields;
 		setPetRequested(true);
-		const response = await fetch("/api/replicateCall?" + prompt);
+		getStory(animalType);
 
+		const response = await fetch("/api/replicateImageCall?" + prompt);
 		const data = await response.json();
 		setPetRequested(false);
+
 		return data;
 	};
 
-	const translate = async () => {
-		const text = `${animalColor} ${animalType} wearing royal cloths, 4k photo`;
-		const result = await callBackendAPI(text);
-		setTranslatedText(result[0]);
+	const createPet = async (pet) => {
+		try {
+			const response = await fetch("/api/createPet", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(pet),
+			});
+
+			if (response.ok) {
+				const { _id } = await response.json();
+
+				// console.log("Pet created successfully!");
+				// console.log("ID:", _id);
+
+				router.push(`/build/${_id}`);
+			} else {
+				console.error("Failed to create pet:", response.statusText);
+			}
+		} catch (error) {
+			console.error("Error creating pet:", error);
+		}
 	};
 
+	const getStory = async (animalType) => {
+		try {
+			const response = await fetch(
+				`/api/getPetOriginStory?animalType=${animalType}`
+			);
+			const data = await response.json();
+			setOriginStory(data);
+		} catch (error) {
+			console.error("Error fetching pet origin story:", error);
+		}
+	};
+
+	const savePet = () => {
+		const pet = {
+			_type: "pet",
+			name: originStory.name,
+			image: image,
+			originStory: originStory.story,
+			createdBy: {
+				_type: "createdBy",
+				_ref: userProfile?._id,
+			},
+		};
+
+		createPet(pet);
+	};
+
+	const triggerNewPetSequence = async () => {
+		const text = `${animalColor} ${animalType} wearing royal cloths, 4k photo`;
+		const result = await generatePet(text);
+		setImage(result[0]);
+	};
+
+	useEffect(() => {
+		if (originStory && Object.keys(originStory).length !== 0 && image) {
+			setSavable(true);
+		} else {
+			setSavable(false);
+		}
+	}, [originStory, image]);
+
 	return (
-		<main className="bg-white">
+		<main className="bg-[#B6D6CC]">
 			<div className="mx-auto max-w-7xl lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8">
 				<div className="px-6 pt-10 lg:col-span-7 lg:px-0 xl:col-span-6">
 					<div className="mx-auto max-w-2xl lg:mx-0">
-						<Image
-							src={logo}
-							alt="Pet Boutique"
-							className=""
-							width={100}
-							height={24}
-							priority
-						/>
-						<h1 className="mt-24 text-4xl font-bold tracking-tight text-gray-900 sm:mt-10 sm:text-6xl">
-							Utilize the power of AI to create your dream pet
-						</h1>
-						<p className="mt-6 text-lg leading-8 text-gray-600">
-							Use our dream pet creation wizard to create a unique dream pet who
-							will keep you digitally comforted for all eternity
-						</p>
-						<div className="mt-10 flex items-center gap-x-6">
-							<div className="isolate -space-y-px rounded-md shadow-sm">
-								<div className="relative rounded-md rounded-b-none px-3 pt-2.5 pb-1.5 ring-1 ring-inset ring-gray-300 focus-within:z-10 focus-within:ring-2">
-									<label
-										htmlFor="name"
-										className="block text-xs font-medium text-gray-900"
-									>
-										Type of animal would you like your pet to be
-									</label>
-									<input
-										type="text"
-										name="name"
-										id="name"
-										className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-										placeholder=" wildcat"
-										value={animalType}
-										onChange={(e) => setAnimalType(e.target.value)}
-									/>
-								</div>
-								<div className="relative rounded-md rounded-t-none px-3 pb-1.5 pt-2.5 ring-1 ring-inset ring-gray-300 focus-within:z-10 focus-within:ring-2 focus-within:ring-indigo-600">
-									<label
-										htmlFor="job-title"
-										className="block text-xs font-medium text-gray-900"
-									>
-										Animal Color
-									</label>
-									<input
-										type="text"
-										name="animal-color"
-										id="animal-color"
-										className="block w-full border-0 p-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-										placeholder=" blue"
-										value={animalColor}
-										onChange={(e) => setAnimalColor(e.target.value)}
-									/>
-								</div>
-							</div>
-							<button
-								type="button"
-								className="rounded-full bg-white py-2.5 px-4 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-100"
-								onClick={translate}
-							>
-								Generate Pet
-							</button>
+						{userProfile ? (
+							image && !savable ? (
+								<TypewriterLoader />
+							) : savable ? (
+								<>
+									<h1 className="mt-24 text-4xl font-bold tracking-tight text-gray-900 sm:mt-10 relative">
+										Is{" "}
+										<Image
+											src={crown}
+											alt="Crown"
+											width={24}
+											height={24}
+											className="absolute -top-4 left-8"
+										/>
+										<span className="text-[#B388EB] font-bold">
+											{originStory.name}
+										</span>{" "}
+										the Big Fuzzy you were looking for?!{" "}
+									</h1>
+									<p className="text-gray-700 mt-3">{originStory.story}</p>
+								</>
+							) : (
+								<>
+									<h1 className="mt-24 text-4xl font-bold tracking-tight text-gray-900 sm:mt-10">
+										Big Fuzzy: Tokenized Royal Pet Portraits with Value!
+									</h1>
+									<div className="text-gray-700">
+										<p>Create your Big Fuzzy pet in 4 simple steps:</p>
+										<ol className="list-decimal pl-6 mt-4 mb-3">
+											<li>Enter animal type</li>
+											<li>Select animal color</li>
+											<li>Click &quot;Generate Pet&quot;</li>
+											<li>
+												If you find your Big Fuzzy, click &quot;Save Pet!&quot;
+											</li>
+										</ol>
+										<p>
+											Experience the magic of tokenized royal pet portraits with
+											Big Fuzzy. Own a unique piece of art, securely stored and
+											tradable on the blockchain. Start your journey today!
+										</p>
+									</div>
+								</>
+							)
+						) : (
+							<p className="mt-6 text-lg leading-8 text-gray-600">
+								Create digital royal pet portraits with Big Fuzzy. Each artwork
+								is tokenized for authenticity. Get the complete package: digital
+								portrait, origin story, canvas print, and stamped medallion.
+								Store, trade, and display securely. Experience the intersection
+								of art, blockchain, and royal pets. Unleash their regal value
+								with Big Fuzzy. Start your journey today!
+							</p>
+						)}
+
+						<div className="mt-10">
+							{userProfile && (
+								<>
+									<div className="items-center justify-between">
+										<div className="">
+											<label
+												htmlFor="animal-type"
+												className="block text-sm font-medium text-gray-700"
+											>
+												Type of Animal
+											</label>
+											<input
+												type="text"
+												name="animal-type"
+												id=""
+												className="rounded-md border-0 pl-2 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
+												placeholder="e.g., wild cat"
+												value={animalType}
+												onChange={(e) => setAnimalType(e.target.value)}
+											/>
+										</div>
+										<div className="mt-3">
+											<label
+												htmlFor="animal-color"
+												className="block text-sm font-medium text-gray-700"
+											>
+												Animal Color
+											</label>
+											<input
+												type="text"
+												name="animal-color"
+												id="animal-color"
+												className="rounded-md border-0 pl-2 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
+												placeholder="e.g., blue"
+												value={animalColor}
+												onChange={(e) => setAnimalColor(e.target.value)}
+											/>
+										</div>
+									</div>
+									<div className="flex gap-x-5 mt-6">
+										<button
+											type="button"
+											className="items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-black bg-[#F1FEC6] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:black disabled:opacity-25"
+											onClick={triggerNewPetSequence}
+											disabled={(animalColor || animalType) === ""}
+										>
+											Generate Pet
+										</button>
+
+										{savable && (
+											<button
+												type="button"
+												className="items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#FA9F42] hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+												onClick={savePet}
+												hidden={!savable}
+											>
+												Save Pet!
+											</button>
+										)}
+									</div>
+								</>
+							)}
 						</div>
 					</div>
 				</div>
@@ -179,9 +312,9 @@ export default function Home() {
 						<Loader />
 					) : (
 						<Image
-							src={translatedText || petImage}
+							src={image || petImage}
 							alt="Generated Pet Image"
-							className="max-w-lg rounded-full bg-gray-50 lg:inset-0 lg:aspect-auto"
+							className="max-w-lg rounded-full bg-gray-50 border-double border-2 lg:inset-0 lg:aspect-auto"
 							width={500}
 							height={500}
 							priority
@@ -189,7 +322,8 @@ export default function Home() {
 					)}
 				</div>
 			</div>
-			<footer className="bg-white">
+
+			<footer className="bg-[#B6D6CC]">
 				<div className="mx-auto max-w-7xl overflow-hidden py-5 px-6 sm:py-24 lg:px-8">
 					<nav
 						className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
