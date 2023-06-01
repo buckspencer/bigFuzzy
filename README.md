@@ -1,6 +1,24 @@
+![logo](https://github.com/buckspencer/bigFuzzy/assets/5303892/d1338729-9984-4a2f-ac06-edcb9f7ff621)
 
+AI PET GENERATOR
 
-# BIG FUZZY  
-## PET GENERATING APPLICATION
+## TECHNOLOGIES: 
+- Next.js
+- TailwindCSS
+- SanityCMS
+- Auth0
 
-<img width="1278" alt="Screen Shot 2023-05-03 at 2 59 23 PM" src="https://user-images.githubusercontent.com/5303892/236059387-53ce98e2-8396-429f-bb90-60517252c78c.png">
+### Deployment pipeline: 
+- Vercel
+
+## Flow: 
+```mermaid
+graph LR
+A[Desired Animal/Color] -- AI APIs --> B((Origin Story))
+A --> C(Image)
+B --> D{BigFuzzy Pet}
+C --> D
+```
+
+## Images:
+<img width="1199" alt="Screen Shot 2023-06-01 at 3 25 19 PM" src="https://github.com/buckspencer/bigFuzzy/assets/5303892/64e4fe8d-1616-49df-855f-ab85833a83b4">
