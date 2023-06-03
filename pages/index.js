@@ -8,7 +8,7 @@ import TypewriterLoader from "@/components/TypewriterLoader";
 import crown from "../assets/crown.svg";
 import logo from "../assets/logo.svg";
 import petImage from "../assets/pet_image.jpg";
-import useAuthStore from "../store/authStore";
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/router";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -88,7 +88,7 @@ const navigation = {
 };
 
 export default function Home() {
-	const { userProfile } = useAuthStore();
+	const { user, error, isLoading } = useUser();
 	const [animalType, setAnimalType] = useState("");
 	const [animalColor, setAnimalColor] = useState("");
 	const [originStory, setOriginStory] = useState({});
@@ -187,7 +187,7 @@ export default function Home() {
 			<div className="mx-auto max-w-7xl lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8">
 				<div className="px-6 pt-10 lg:col-span-7 lg:px-0 xl:col-span-6">
 					<div className="mx-auto max-w-2xl lg:mx-0">
-						{userProfile ? (
+						{user ? (
 							image && !savable ? (
 								<TypewriterLoader />
 							) : savable ? (
@@ -243,7 +243,7 @@ export default function Home() {
 						)}
 
 						<div className="mt-10">
-							{userProfile && (
+							{user && (
 								<>
 									<div className="items-center justify-between">
 										<div className="">

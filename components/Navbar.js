@@ -1,15 +1,17 @@
-import { GoogleLogin, googleLogout } from "@react-oauth/google";
-
+/* eslint-disable @next/next/no-html-link-for-pages */
 import { AiOutlineLogout } from "react-icons/ai";
 import Image from "next/image";
 import Link from "next/link";
 import { React } from "react";
 import { createOrGetUser } from "@/utils";
 import logo from "../assets/logo.svg";
-import useAuthStore from "../store/authStore";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const Navbar = () => {
-	const { userProfile, addUser, removeUser } = useAuthStore();
+	const { user, error, isLoading } = useUser();
+
+	if (isLoading) return <div>Loading...</div>;
+	if (error) return <div>{error.message}</div>;
 
 	return (
 		<>
@@ -26,37 +28,33 @@ const Navbar = () => {
 						</Link>
 					</div>
 					<>
-						{userProfile ? (
+						{user ? (
 							<div className="flex gap-2 md:gap-6">
-								{userProfile.image && (
+								{user.picture && (
 									<Link href="/">
 										<Image
 											width={40}
 											height={40}
 											className="rounded-full cursor-pointer"
-											src={userProfile.image}
+											src={user.picture}
 											alt="profile photo"
 										/>
 									</Link>
 								)}
-								<button
-									key="logOut"
-									type="button"
-									className="px-2"
-									onClick={() => {
-										googleLogout();
-										removeUser();
-									}}
+								<a
+									href="/api/auth/logout"
+									class="mt-2 text-2xl font-extralight text-gray-600 hover:text-gray-900"
 								>
-									<AiOutlineLogout color="red" fontSize={21} />
-								</button>
+									Logout
+								</a>
 							</div>
 						) : (
-							<GoogleLogin
-								key="logIn"
-								onSuccess={(response) => createOrGetUser(response, addUser)}
-								onError={() => console.log("Error")}
-							/>
+							<a
+								href="/api/auth/login"
+								class=" mt-2 text-2xl font-extralight text-gray-600 hover:text-gray-900"
+							>
+								Login
+							</a>
 						)}
 					</>
 				</div>
