@@ -51,7 +51,7 @@ const Navbar = () => {
 						) : (
 							<a
 								href="/api/auth/login"
-								className=" mt-2 text-2xl font-extralight text-gray-600 hover:text-gray-900"
+								className="mt-2 text-2xl font-extralight text-gray-600 hover:text-gray-900"
 							>
 								Login
 							</a>
