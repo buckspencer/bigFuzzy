@@ -2,18 +2,17 @@
  * This configuration is used to for the Sanity Studio that’s mounted on the `/pages/studio/[[...index]].jsx` route
  */
 
+import { API_VERSION, DATA_SET, PROJECT_ID } from "./env";
+
 import { defineConfig } from "sanity";
 import { deskTool } from "sanity/desk";
 import { schema } from "./sanity/schema";
 import { visionTool } from "@sanity/vision";
 
-const projectId = process.env.SANITY_PROJECT_ID;
-const dataset = process.env.SANITY_DATASET;
-
 export default defineConfig({
 	basePath: "/studio",
-	projectId: "r13k8xf5",
-	dataset: "production",
+	projectId: PROJECT_ID,
+	dataset: DATA_SET,
 	// Add and edit the content schema in the './sanity/schema' folder
 	schema,
 	plugins: [
@@ -21,7 +20,7 @@ export default defineConfig({
 		// Vision is a tool that lets you query your content with GROQ in the studio
 		// https://www.sanity.io/docs/the-vision-plugin
 		visionTool({
-			defaultApiVersion: process.env.SANITY_API_VERSION,
+			defaultApiVersion: API_VERSION,
 		}),
 	],
 });

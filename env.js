@@ -1,0 +1,4 @@
+export const PROJECT_ID = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
+export const DATA_SET = process.env.NEXT_PUBLIC_SANITY_SANITY_DATASET;
+export const API_TOKEN = process.env.NEXT_PUBLIC_SANITY_SANITY_API_TOKEN;
+export const API_VERSION = process.env.NEXT_PUBLIC_SANITY_API_VERSION;
