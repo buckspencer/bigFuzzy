@@ -5,9 +5,10 @@ export default {
 	type: "document",
 	fields: [
 		{
-			name: "createdBy",
-			title: "createdBy",
-			type: "createdBy",
+			// Auth0 subscriber ID
+			name: "userId",
+			title: "UserId",
+			type: "string",
 		},
 		{
 			name: "name",
