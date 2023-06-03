@@ -9,6 +9,7 @@ import TypewriterLoader from "@/components/TypewriterLoader";
 import crown from "../assets/crown.svg";
 import logo from "../assets/logo.svg";
 import petImage from "../assets/pet_image.jpg";
+import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/router";
 
@@ -94,7 +95,7 @@ export default function Home() {
 	const [animalColor, setAnimalColor] = useState("");
 	const [originStory, setOriginStory] = useState({});
 	const [savable, setSavable] = useState(false);
-	const [image, setImage] = useState("");
+	const [imageUrl, setImageUrl] = useState("");
 	const [petRequested, setPetRequested] = useState(false);
 	const router = useRouter();
 
@@ -157,8 +158,9 @@ export default function Home() {
 	const savePet = () => {
 		const pet = {
 			_type: "pet",
+			userId: user.sub,
 			name: originStory.name,
-			image: image,
+			imageUrl: imageUrl,
 			originStory: originStory.story,
 			createdBy: {
 				_type: "createdBy",
@@ -172,16 +174,16 @@ export default function Home() {
 	const triggerNewPetSequence = async () => {
 		const text = `${animalColor} ${animalType} wearing royal cloths, 4k photo`;
 		const result = await generatePet(text);
-		setImage(result[0]);
+		setImageUrl(result[0]);
 	};
 
 	useEffect(() => {
-		if (originStory && Object.keys(originStory).length !== 0 && image) {
+		if (originStory && Object.keys(originStory).length !== 0 && imageUrl) {
 			setSavable(true);
 		} else {
 			setSavable(false);
 		}
-	}, [originStory, image]);
+	}, [originStory, imageUrl]);
 
 	return (
 		<main className="bg-[#B6D6CC]">
@@ -189,7 +191,7 @@ export default function Home() {
 				<div className="px-6 pt-10 lg:col-span-7 lg:px-0 xl:col-span-6">
 					<div className="mx-auto max-w-2xl lg:mx-0">
 						{user ? (
-							image && !savable ? (
+							imageUrl && !savable ? (
 								<TypewriterLoader />
 							) : savable ? (
 								<>
@@ -313,7 +315,7 @@ export default function Home() {
 						<Loader />
 					) : (
 						<Image
-							src={image || petImage}
+							src={imageUrl || petImage}
 							alt="Generated Pet Image"
 							className="max-w-lg rounded-full bg-gray-50 border-double border-2 lg:inset-0 lg:aspect-auto"
 							width={500}

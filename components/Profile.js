@@ -5,6 +5,7 @@ import Image from "next/image";
 import { RadioGroup } from "@headlessui/react";
 import { ShieldCheckIcon } from "@heroicons/react/24/outline";
 import petImage from "../assets/pet_image.jpg";
+import { urlForImage } from "../sanity/lib/image";
 
 const product = {
 	name: "Your Big Fuzzy has been found",
@@ -29,7 +30,6 @@ const reviews = { average: 4, totalCount: 1624 };
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
-
 const Profile = (props) => {
 	const { petDetails } = props;
 	const [pet, setPet] = useState(petDetails[0]);
@@ -69,7 +69,7 @@ const Profile = (props) => {
 				<div className="mt-10 lg:col-start-2 lg:row-span-2 lg:mt-0 lg:self-center">
 					<div className="aspect-h-1 aspect-w-1 overflow-hidden rounded-lg">
 						<Image
-							src={pet.image}
+							src={urlForImage(pet.image).width(200).url()}
 							alt="Generated Pet Image"
 							className="h-full w-full object-cover object-center"
 							width={500}
