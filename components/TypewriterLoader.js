@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from "react";
 
-const TypewriterLoader = () => {
+const TypewriterLoader = ({ text }) => {
 	const typewriterRef = useRef(null);
 
 	useEffect(() => {
-		const text = "Still looking for your Big Fuzzy's origin story";
 		let charIndex = 0;
 
 		const typewriterEffect = setInterval(() => {
@@ -19,7 +18,7 @@ const TypewriterLoader = () => {
 		}, 100);
 
 		return () => clearInterval(typewriterEffect);
-	}, []);
+	}, [text]);
 
 	return (
 		<div className="flex items-center justify-center h-24">
