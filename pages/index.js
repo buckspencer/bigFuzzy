@@ -11,8 +11,6 @@ import logo from "../assets/logo.svg";
 import petImage from "../assets/pet_image.jpg";
 import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0/client";
-import { useRouter } from "next/router";
-
 
 const navigation = {
 	main: [
