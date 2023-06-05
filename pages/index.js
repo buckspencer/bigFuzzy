@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 
+import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Inter } from "next/font/google";
 import Link from "next/link";
 import Loader from "@/components/Loader";
 import TypewriterLoader from "@/components/TypewriterLoader";
 import crown from "../assets/crown.svg";
 import logo from "../assets/logo.svg";
 import petImage from "../assets/pet_image.jpg";
-import useAuthStore from "../store/authStore";
 import { useRouter } from "next/router";
-
-const inter = Inter({ subsets: ["latin"] });
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const navigation = {
 	main: [
@@ -88,12 +86,12 @@ const navigation = {
 };
 
 export default function Home() {
-	const { userProfile } = useAuthStore();
+	const { user, error, isLoading } = useUser();
 	const [animalType, setAnimalType] = useState("");
 	const [animalColor, setAnimalColor] = useState("");
 	const [originStory, setOriginStory] = useState({});
 	const [savable, setSavable] = useState(false);
-	const [image, setImage] = useState("");
+	const [imageUrl, setImageUrl] = useState("");
 	const [petRequested, setPetRequested] = useState(false);
 	const router = useRouter();
 
@@ -156,8 +154,9 @@ export default function Home() {
 	const savePet = () => {
 		const pet = {
 			_type: "pet",
+			userId: user.sub,
 			name: originStory.name,
-			image: image,
+			imageUrl: imageUrl,
 			originStory: originStory.story,
 			createdBy: {
 				_type: "createdBy",
@@ -171,24 +170,24 @@ export default function Home() {
 	const triggerNewPetSequence = async () => {
 		const text = `${animalColor} ${animalType} wearing royal cloths, 4k photo`;
 		const result = await generatePet(text);
-		setImage(result[0]);
+		setImageUrl(result[0]);
 	};
 
 	useEffect(() => {
-		if (originStory && Object.keys(originStory).length !== 0 && image) {
+		if (originStory && Object.keys(originStory).length !== 0 && imageUrl) {
 			setSavable(true);
 		} else {
 			setSavable(false);
 		}
-	}, [originStory, image]);
+	}, [originStory, imageUrl]);
 
 	return (
 		<main className="bg-[#B6D6CC]">
 			<div className="mx-auto max-w-7xl lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8">
 				<div className="px-6 pt-10 lg:col-span-7 lg:px-0 xl:col-span-6">
 					<div className="mx-auto max-w-2xl lg:mx-0">
-						{userProfile ? (
-							image && !savable ? (
+						{user ? (
+							imageUrl && !savable ? (
 								<TypewriterLoader />
 							) : savable ? (
 								<>
@@ -243,7 +242,7 @@ export default function Home() {
 						)}
 
 						<div className="mt-10">
-							{userProfile && (
+							{user && (
 								<>
 									<div className="items-center justify-between">
 										<div className="">
@@ -312,7 +311,7 @@ export default function Home() {
 						<Loader />
 					) : (
 						<Image
-							src={image || petImage}
+							src={imageUrl || petImage}
 							alt="Generated Pet Image"
 							className="max-w-lg rounded-full bg-gray-50 border-double border-2 lg:inset-0 lg:aspect-auto"
 							width={500}
@@ -322,41 +321,7 @@ export default function Home() {
 					)}
 				</div>
 			</div>
-
-			<footer className="bg-[#B6D6CC]">
-				<div className="mx-auto max-w-7xl overflow-hidden py-5 px-6 sm:py-24 lg:px-8">
-					<nav
-						className="-mb-6 columns-2 sm:flex sm:justify-center sm:space-x-12"
-						aria-label="Footer"
-					>
-						{navigation.main.map((item) => (
-							<div key={item.name} className="pb-6">
-								<a
-									href={item.href}
-									className="text-sm leading-6 text-gray-600 hover:text-gray-900"
-								>
-									{item.name}
-								</a>
-							</div>
-						))}
-					</nav>
-					<div className="mt-10 flex justify-center space-x-10">
-						{navigation.social.map((item) => (
-							<a
-								key={item.name}
-								href={item.href}
-								className="text-gray-400 hover:text-gray-500"
-							>
-								<span className="sr-only">{item.name}</span>
-								<item.icon className="h-6 w-6" aria-hidden="true" />
-							</a>
-						))}
-					</div>
-					<p className="mt-10 text-center text-xs leading-5 text-gray-500">
-						&copy; 2023 Big Fuzzy, Inc. All rights reserved.
-					</p>
-				</div>
-			</footer>
+			<Footer />
 		</main>
 	);
 }

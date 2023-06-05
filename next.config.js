@@ -2,7 +2,11 @@
 const nextConfig = {
 	reactStrictMode: true,
 	images: {
-		domains: ["replicate.delivery", "lh3.googleusercontent.com"],
+		domains: [
+			"replicate.delivery",
+			"lh3.googleusercontent.com",
+			"cdn.sanity.io",
+		],
 	},
 };
 

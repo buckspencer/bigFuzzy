@@ -1,4 +1,4 @@
-import { API_TOKEN, API_VERSION, DATA_SET, PROJECT_ID } from "../env";
+import { API_TOKEN, API_VERSION, DATA_SET, PROJECT_ID } from "../../env";
 
 import { createClient } from "next-sanity";
 
