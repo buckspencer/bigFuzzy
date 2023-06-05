@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import Instructions from "../components/Instructions";
 import Link from "next/link";
 import Loader from "@/components/Loader";
 import TypewriterLoader from "@/components/TypewriterLoader";
