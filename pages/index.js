@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Inter } from "next/font/google";
+import Instructions from "../components/Instructions";
 import Link from "next/link";
 import Loader from "@/components/Loader";
 import TypewriterLoader from "@/components/TypewriterLoader";
@@ -13,7 +13,6 @@ import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useRouter } from "next/router";
 
-const inter = Inter({ subsets: ["latin"] });
 
 const navigation = {
 	main: [
