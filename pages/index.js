@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 
-import Footer from "@/components/Footer";
 import Image from "next/image";
+import Instructions from "../components/Instructions";
+import LandingScreen from "../components/LandingScreen";
 import Link from "next/link";
 import Loader from "@/components/Loader";
+import PetInformation from "../components/PetInformation";
 import TypewriterLoader from "@/components/TypewriterLoader";
-import crown from "../assets/crown.svg";
 import logo from "../assets/logo.svg";
 import petImage from "../assets/pet_image.jpg";
 import { useRouter } from "next/router";
@@ -87,9 +88,11 @@ const navigation = {
 
 export default function Home() {
 	const { user, error, isLoading } = useUser();
+	const [recentPets, setRecentPets] = useState([]);
 	const [animalType, setAnimalType] = useState("");
 	const [animalColor, setAnimalColor] = useState("");
 	const [originStory, setOriginStory] = useState({});
+	const [typingText, setTypingText] = useState("Searching AI Verse...");
 	const [savable, setSavable] = useState(false);
 	const [imageUrl, setImageUrl] = useState("");
 	const [petRequested, setPetRequested] = useState(false);
@@ -97,9 +100,21 @@ export default function Home() {
 
 	const clearFields = async () => {
 		setImage("");
+		setImageUrl("");
 		setAnimalType("");
 		setAnimalColor("");
 		setOriginStory("");
+		setSavable(false);
+	};
+
+	const fetchPetsAndUpdateState = async () => {
+		try {
+			const response = await fetch(`/api/pet`);
+			const data = await response.json();
+			setRecentPets(data.pets);
+		} catch (error) {
+			console.error("Error fetching pets:", error);
+		}
 	};
 
 	const generatePet = async (prompt) => {
@@ -127,9 +142,6 @@ export default function Home() {
 			if (response.ok) {
 				const { _id } = await response.json();
 
-				// console.log("Pet created successfully!");
-				// console.log("ID:", _id);
-
 				router.push(`/build/${_id}`);
 			} else {
 				console.error("Failed to create pet:", response.statusText);
@@ -141,13 +153,24 @@ export default function Home() {
 
 	const getStory = async (animalType) => {
 		try {
-			const response = await fetch(
-				`/api/getPetOriginStory?animalType=${animalType}`
-			);
+			const response = await Promise.race([
+				fetch(`/api/getPetOriginStory?animalType=${animalType}`),
+				new Promise((_, reject) =>
+					setTimeout(() => reject(new Error("Timeout")), 45000)
+				),
+			]);
+			if (!response.ok) {
+				// check for successful response
+				throw new Error(response.statusText);
+				setTypingText("Big Fuzzy lost, reattempting...");
+				triggerNewPetSequence();
+			}
 			const data = await response.json();
 			setOriginStory(data);
 		} catch (error) {
 			console.error("Error fetching pet origin story:", error);
+			setTypingText("Big Fuzzy lost, reattempting...");
+			triggerNewPetSequence();
 		}
 	};
 
@@ -158,10 +181,6 @@ export default function Home() {
 			name: originStory.name,
 			imageUrl: imageUrl,
 			originStory: originStory.story,
-			createdBy: {
-				_type: "createdBy",
-				_ref: userProfile?._id,
-			},
 		};
 
 		createPet(pet);
@@ -174,6 +193,7 @@ export default function Home() {
 	};
 
 	useEffect(() => {
+		fetchPetsAndUpdateState(setRecentPets);
 		if (originStory && Object.keys(originStory).length !== 0 && imageUrl) {
 			setSavable(true);
 		} else {
@@ -187,58 +207,15 @@ export default function Home() {
 				<div className="px-6 pt-10 lg:col-span-7 lg:px-0 xl:col-span-6">
 					<div className="mx-auto max-w-2xl lg:mx-0">
 						{user ? (
-							imageUrl && !savable ? (
-								<TypewriterLoader />
+							imageUrl && originStory.name ? (
+								<PetInformation originStory={originStory} />
 							) : savable ? (
-								<>
-									<h1 className="mt-24 text-4xl font-bold tracking-tight text-gray-900 sm:mt-10 relative">
-										Is{" "}
-										<Image
-											src={crown}
-											alt="Crown"
-											width={24}
-											height={24}
-											className="absolute -top-4 left-8"
-										/>
-										<span className="text-[#B388EB] font-bold">
-											{originStory.name}
-										</span>{" "}
-										the Big Fuzzy you were looking for?!{" "}
-									</h1>
-									<p className="text-gray-700 mt-3">{originStory.story}</p>
-								</>
+								<TypewriterLoader text={typingText} />
 							) : (
-								<>
-									<h1 className="mt-24 text-4xl font-bold tracking-tight text-gray-900 sm:mt-10">
-										Big Fuzzy: Tokenized Royal Pet Portraits with Value!
-									</h1>
-									<div className="text-gray-700">
-										<p>Create your Big Fuzzy pet in 4 simple steps:</p>
-										<ol className="list-decimal pl-6 mt-4 mb-3">
-											<li>Enter animal type</li>
-											<li>Select animal color</li>
-											<li>Click &quot;Generate Pet&quot;</li>
-											<li>
-												If you find your Big Fuzzy, click &quot;Save Pet!&quot;
-											</li>
-										</ol>
-										<p>
-											Experience the magic of tokenized royal pet portraits with
-											Big Fuzzy. Own a unique piece of art, securely stored and
-											tradable on the blockchain. Start your journey today!
-										</p>
-									</div>
-								</>
+								<Instructions />
 							)
 						) : (
-							<p className="mt-6 text-lg leading-8 text-gray-600">
-								Create digital royal pet portraits with Big Fuzzy. Each artwork
-								is tokenized for authenticity. Get the complete package: digital
-								portrait, origin story, canvas print, and stamped medallion.
-								Store, trade, and display securely. Experience the intersection
-								of art, blockchain, and royal pets. Unleash their regal value
-								with Big Fuzzy. Start your journey today!
-							</p>
+							<LandingScreen recentPets={recentPets} />
 						)}
 
 						<div className="mt-10">
@@ -248,7 +225,7 @@ export default function Home() {
 										<div className="">
 											<label
 												htmlFor="animal-type"
-												className="block text-sm font-medium text-gray-700"
+												className="block text-sm font-normal text-gray-700"
 											>
 												Type of Animal
 											</label>
@@ -265,7 +242,7 @@ export default function Home() {
 										<div className="mt-3">
 											<label
 												htmlFor="animal-color"
-												className="block text-sm font-medium text-gray-700"
+												className="block text-sm font-normal text-gray-700"
 											>
 												Animal Color
 											</label>
@@ -306,7 +283,7 @@ export default function Home() {
 						</div>
 					</div>
 				</div>
-				<div className="self-center sm:mt-24 lg:mt-10 lg:flex-shrink-0 lg:flex-grow">
+				<div className="ml-8 mt-8">
 					{petRequested ? (
 						<Loader />
 					) : (
@@ -314,14 +291,13 @@ export default function Home() {
 							src={imageUrl || petImage}
 							alt="Generated Pet Image"
 							className="max-w-lg rounded-full bg-gray-50 border-double border-2 lg:inset-0 lg:aspect-auto"
-							width={500}
-							height={500}
+							width={400}
+							height={400}
 							priority
 						/>
 					)}
 				</div>
 			</div>
-			<Footer />
 		</main>
 	);
 }
