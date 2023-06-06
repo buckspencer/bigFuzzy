@@ -1,3 +1,9 @@
+export const allPetsQuery = () => {
+	const query = `*[_type == "pet"]`;
+
+	return query;
+};
+
 export const recentPetsQuery = () => {
 	const query = `*[_type == "pet"] | order(_createdAt) [0...5]`;
 

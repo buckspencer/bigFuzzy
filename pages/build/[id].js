@@ -1,9 +1,9 @@
-import Profile from "../../components/Profile";
+import Adoption from "../../components/Adoption";
 import React from "react";
 import axios from "axios";
 
 const Build = (props) => {
-	return <Profile {...props} />;
+	return <Adoption {...props} />;
 };
 
 export async function getServerSideProps({ params }) {

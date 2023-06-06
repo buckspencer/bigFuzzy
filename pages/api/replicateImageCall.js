@@ -15,5 +15,7 @@ export default async function replicateImageCall(req, res) {
 			},
 		}
 	);
+	// console.log("IMAGE RESPONSE");
+	// console.log(output);
 	res.status(200).json(output);
 }

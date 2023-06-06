@@ -9,7 +9,7 @@ export default async function handler(req, res) {
 		// Return the results as a JSON response
 		res.status(200).json({ pets: recentPets });
 	} catch (error) {
-		console.error(error);
+		// console.error(error);
 		res.status(500).json({ message: "Something went wrong" });
 	}
 }
