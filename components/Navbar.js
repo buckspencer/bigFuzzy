@@ -26,6 +26,14 @@ const Navbar = () => {
 								style={{ width: "auto", height: "2em" }}
 							/>
 						</Link>
+						{user && (
+							<a
+								href="/gallery"
+								className="mt-2 ml-9 text-md font-extralight text-gray-600 hover:text-gray-900"
+							>
+								Gallery
+							</a>
+						)}
 					</div>
 					<>
 						{user ? (
