@@ -109,7 +109,7 @@ export default function Home() {
 
 	const fetchPetsAndUpdateState = async () => {
 		try {
-			const response = await fetch(`/api/pet`);
+			const response = await fetch(`/api/pet/recent`);
 			const data = await response.json();
 			setRecentPets(data.pets);
 		} catch (error) {
@@ -142,7 +142,7 @@ export default function Home() {
 			if (response.ok) {
 				const { _id } = await response.json();
 
-				router.push(`/build/${_id}`);
+				router.push(`/holding/${_id}`);
 			} else {
 				console.error("Failed to create pet:", response.statusText);
 			}

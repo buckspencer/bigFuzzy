@@ -14,7 +14,7 @@ const Gallery = (props) => {
 
 				<div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
 					{pets.map((pet) => (
-						<Link key={pet._id} href={`/build/${pet._id}`}>
+						<Link key={pet._id} href={`/pet/${pet._id}`}>
 							<div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg sm:aspect-h-3 sm:aspect-w-2">
 								<Image
 									src={urlForImage(pet.image).width(800).url()}
@@ -39,7 +39,7 @@ const Gallery = (props) => {
 };
 
 export async function getServerSideProps() {
-	const res = await fetch(`${process.env.NEXT_BASE_URL}/api/gallery`);
+	const res = await fetch(`${process.env.NEXT_BASE_URL}/api/pet`);
 	const data = await res.json();
 
 	return {

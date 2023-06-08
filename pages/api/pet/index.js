@@ -1,15 +1,18 @@
+import { allPetsQuery } from "../../../utils/queries";
 import { client } from "../../../sanity/lib/client";
-import { recentPetsQuery } from "../../../utils/queries";
 
 export default async function handler(req, res) {
 	try {
-		const query = recentPetsQuery();
-		// Fetch the last 6 most recently created pets from Sanity
-		const recentPets = await client.fetch(query);
-		// Return the results as a JSON response
-		res.status(200).json({ pets: recentPets });
+		const query = allPetsQuery();
+		const data = await client.fetch(query);
+		console.log(data);
+		if (data) {
+			res.status(200).json(data); // Return the pet data as JSON response
+		} else {
+			res.status(404).json({ error: "Pet not found" }); // Return a 404 error if pet is not found
+		}
 	} catch (error) {
-		// console.error(error);
-		res.status(500).json({ message: "Something went wrong" });
+		// console.error("Error retrieving pet:", error);
+		res.status(500).json({ error: "Internal server error" }); // Return a 500 error for any other errors
 	}
 }
