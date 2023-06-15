@@ -1,11 +1,13 @@
-import { allPetsQuery } from "../../../utils/queries";
-import { client } from "../../../sanity/lib/client";
+import { client } from "../../../../sanity/lib/client";
+import { usersPetQuery } from "../../../../utils/queries";
 
 export default async function handler(req, res) {
-	try {
-		const query = allPetsQuery();
-		const data = await client.fetch(query);
+	const { id } = req.query; // Extract the ID parameter from the request query
 
+	try {
+		const query = usersPetQuery(id);
+		const data = await client.fetch(query);
+		
 		if (data) {
 			res.status(200).json(data); // Return the pet data as JSON response
 		} else {
