@@ -1,9 +1,9 @@
-import Adoption from "../../components/Adoption";
+import HoldingScreen from "../../components/HoldingScreen";
 import React from "react";
 import axios from "axios";
 
 const Build = (props) => {
-	return <Adoption {...props} />;
+	return <HoldingScreen {...props} />;
 };
 
 export async function getServerSideProps({ params }) {

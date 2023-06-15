@@ -26,7 +26,7 @@ const reviews = { average: 4, totalCount: 1624 };
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
-const Adoption = (props) => {
+const HoldingScreen = (props) => {
 	const { petDetails } = props;
 	const [pet, setPet] = useState(petDetails[0]);
 	const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
@@ -157,4 +157,4 @@ const Adoption = (props) => {
 	);
 };
 
-export default Adoption;
+export default HoldingScreen;
