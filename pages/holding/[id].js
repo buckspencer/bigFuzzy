@@ -2,7 +2,7 @@ import HoldingScreen from "../../components/HoldingScreen";
 import React from "react";
 import axios from "axios";
 
-const Build = (props) => {
+const Holding = (props) => {
 	return <HoldingScreen {...props} />;
 };
 
@@ -17,4 +17,4 @@ export async function getServerSideProps({ params }) {
 	};
 }
 
-export default Build;
+export default Holding;

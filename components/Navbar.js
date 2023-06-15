@@ -27,12 +27,20 @@ const Navbar = () => {
 							/>
 						</Link>
 						{user && (
-							<a
-								href="/gallery"
-								className="mt-2 ml-9 text-md font-extralight text-gray-600 hover:text-gray-900"
-							>
-								Gallery
-							</a>
+							<>
+								<Link
+									href="/gallery"
+									className="mt-2 ml-9 text-md font-extralight text-gray-600 hover:text-gray-900"
+								>
+									Gallery
+								</Link>
+								<Link
+									href={`/visitation/${btoa(user.sub)}`}
+									className="mt-2 ml-9 text-md font-extralight text-gray-600 hover:text-gray-900"
+								>
+									Fuzzy Visitation
+								</Link>
+							</>
 						)}
 					</div>
 					<>

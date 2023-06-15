@@ -20,7 +20,7 @@ const LandingScreen = ({ recentPets }) => {
 					className="mt-7 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-3 xl:gap-x-8"
 				>
 					{recentPets.map((pet) => (
-						<Link key={pet._id} href={`/build/${pet._id}`}>
+						<Link key={pet._id} href={`/holding/${pet._id}`}>
 							<li className="relative">
 								<div className="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
 									<Image

@@ -15,3 +15,9 @@ export const singlePetQuery = (petId) => {
 
 	return query;
 };
+
+export const usersPetQuery = (userId) => {
+	const query = `*[_type == "pet" && userId == '${userId}'] | order(_createdAt) [0]`;
+
+	return query;
+};
