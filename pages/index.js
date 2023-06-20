@@ -202,7 +202,7 @@ export default function Home() {
 	}, [originStory, imageUrl]);
 
 	return (
-		<main className="bg-[#B6D6CC]">
+		<div className="bg-[#D6E2EE]">
 			<div className="mx-auto max-w-7xl lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8">
 				<div className="px-6 pt-10 lg:col-span-7 lg:px-0 xl:col-span-6">
 					<div className="mx-auto max-w-2xl lg:mx-0">

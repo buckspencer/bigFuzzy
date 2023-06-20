@@ -15,7 +15,7 @@ const Navbar = () => {
 
 	return (
 		<>
-			<div className="bg-[#B6D6CC] mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+			<div className="bg-[#D6E2EE] mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
 				<div className="relative flex h-16 items-center justify-between">
 					<div className="flex flex-shrink-0 items-center">
 						<Link href="/">

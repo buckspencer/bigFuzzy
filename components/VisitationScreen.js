@@ -4,7 +4,7 @@ import { urlForImage } from "../sanity/lib/image";
 
 const VisitationScreen = ({ petDetails }) => {
 	return (
-		<div className="relative bg-[#B6D6CC]">
+		<div className="relative bg-[#D6E2EE]">
 			<div className="relative h-80 overflow-hidden bg-gray md:absolute md:left-0 md:h-full md:w-1/3 lg:w-1/2">
 				<Image
 					className="h-full w-full object-cover"
