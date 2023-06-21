@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }) {
 
 	return (
 		<UserProvider>
-			<div className="xl:w-[1200px] m-auto overflow-hidden h-[100vh] bg-[#B6D6CC]">
+			<div className="xl:w-[1200px] m-auto bg-[#D6E2EE]">
 				<Navbar />
 				<Component {...pageProps} />
 				<Footer />

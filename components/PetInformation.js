@@ -5,7 +5,7 @@ import crown from "../assets/crown.svg";
 const PetInformation = ({ originStory }) => {
 	return (
 		<>
-			<h1 className="mt-24 text-4xl font-bold tracking-tight text-gray-900 sm:mt-10 relative">
+			<h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:mt-10 relative">
 				Is{" "}
 				<Image
 					src={crown}

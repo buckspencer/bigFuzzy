@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 
 import Image from "next/image";
-import Instructions from "../components/Instructions";
 import LandingScreen from "../components/LandingScreen";
 import Link from "next/link";
 import Loader from "@/components/Loader";
@@ -202,102 +201,93 @@ export default function Home() {
 	}, [originStory, imageUrl]);
 
 	return (
-		<div className="bg-[#D6E2EE]">
-			<div className="mx-auto max-w-7xl lg:grid lg:grid-cols-12 lg:gap-x-8 lg:px-8">
-				<div className="px-6 pt-10 lg:col-span-7 lg:px-0 xl:col-span-6">
-					<div className="mx-auto max-w-2xl lg:mx-0">
-						{user ? (
-							imageUrl && originStory.name ? (
-								<PetInformation originStory={originStory} />
-							) : savable ? (
-								<TypewriterLoader text={typingText} />
-							) : (
-								<Instructions />
-							)
+		<div className="bg-[#D6E2EE] ">
+			<div className="mx-auto max-w-7xl px-6 lg:px-8">
+				<div className="mx-auto flex max-w-2xl flex-col items-end justify-between gap-16 lg:mx-0 lg:max-w-none lg:flex-row">
+					<div className="w-full lg:max-w-lg lg:flex-auto">
+						{petRequested ? (
+							<Loader />
 						) : (
-							<LandingScreen recentPets={recentPets} />
+							<Image
+								src={imageUrl || petImage}
+								alt="Generated Pet Image"
+								className="max-w-lg rounded-full bg-gray-50 border-double border-2 lg:inset-0 lg:aspect-auto"
+								width={400}
+								height={400}
+								priority
+							/>
 						)}
-
+					</div>
+					<div className="w-full lg:max-w-xl lg:flex-auto">
+						{imageUrl && originStory.name ? (
+							<PetInformation originStory={originStory} />
+						) : (
+							<LandingScreen />
+						)}
 						<div className="mt-10">
-							{user && (
-								<>
-									<div className="items-center justify-between">
-										<div className="">
-											<label
-												htmlFor="animal-type"
-												className="block text-sm font-normal text-gray-700"
-											>
-												Type of Animal
-											</label>
-											<input
-												type="text"
-												name="animal-type"
-												id=""
-												className="rounded-md border-0 pl-2 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
-												placeholder="e.g., wild cat"
-												value={animalType}
-												onChange={(e) => setAnimalType(e.target.value)}
-											/>
-										</div>
-										<div className="mt-3">
-											<label
-												htmlFor="animal-color"
-												className="block text-sm font-normal text-gray-700"
-											>
-												Animal Color
-											</label>
-											<input
-												type="text"
-												name="animal-color"
-												id="animal-color"
-												className="rounded-md border-0 pl-2 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
-												placeholder="e.g., blue"
-												value={animalColor}
-												onChange={(e) => setAnimalColor(e.target.value)}
-											/>
-										</div>
+							<>
+								<div className="items-center justify-between">
+									<div className="">
+										<label
+											htmlFor="animal-type"
+											className="block text-sm font-normal text-gray-700"
+										>
+											Type of Animal
+										</label>
+										<input
+											type="text"
+											name="animal-type"
+											id=""
+											className="rounded-md border-0 pl-2 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
+											placeholder="e.g., wild cat"
+											value={animalType}
+											onChange={(e) => setAnimalType(e.target.value)}
+										/>
 									</div>
-									<div className="flex gap-x-5 mt-6">
+									<div className="mt-3">
+										<label
+											htmlFor="animal-color"
+											className="block text-sm font-normal text-gray-700"
+										>
+											Animal Color
+										</label>
+										<input
+											type="text"
+											name="animal-color"
+											id="animal-color"
+											className="rounded-md border-0 pl-2 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
+											placeholder="e.g., blue"
+											value={animalColor}
+											onChange={(e) => setAnimalColor(e.target.value)}
+										/>
+									</div>
+								</div>
+								<div className="flex gap-x-5 mt-6">
+									<button
+										type="button"
+										className="items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-black bg-[#F1FEC6] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:black disabled:opacity-25"
+										onClick={triggerNewPetSequence}
+										disabled={(animalColor || animalType) === ""}
+									>
+										Generate Pet
+									</button>
+
+									{savable && (
 										<button
 											type="button"
-											className="items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-black bg-[#F1FEC6] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:black disabled:opacity-25"
-											onClick={triggerNewPetSequence}
-											disabled={(animalColor || animalType) === ""}
+											className="items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#FA9F42] hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+											onClick={savePet}
+											hidden={!savable}
 										>
-											Generate Pet
+											Save Pet!
 										</button>
-
-										{savable && (
-											<button
-												type="button"
-												className="items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#FA9F42] hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-												onClick={savePet}
-												hidden={!savable}
-											>
-												Save Pet!
-											</button>
-										)}
-									</div>
-								</>
-							)}
+									)}
+								</div>
+							</>
 						</div>
 					</div>
 				</div>
-				<div className="ml-8 mt-8">
-					{petRequested ? (
-						<Loader />
-					) : (
-						<Image
-							src={imageUrl || petImage}
-							alt="Generated Pet Image"
-							className="max-w-lg rounded-full bg-gray-50 border-double border-2 lg:inset-0 lg:aspect-auto"
-							width={400}
-							height={400}
-							priority
-						/>
-					)}
-				</div>
 			</div>
-		</main>
+		</div>
 	);
 }
