@@ -203,8 +203,8 @@ export default function Home() {
 	return (
 		<div className="bg-[#D6E2EE] ">
 			<div className="mx-auto max-w-7xl px-6 lg:px-8">
-				<div className="mx-auto flex max-w-2xl flex-col items-end justify-between gap-16 lg:mx-0 lg:max-w-none lg:flex-row">
-					<div className="mx-auto mb-16">
+				<div className="mx-auto flex max-w-2xl flex-col items-center justify-between gap-16 lg:mx-0 lg:max-w-none lg:flex-row">
+					<div className="mx-auto">
 						{petRequested ? (
 							<Loader />
 						) : (
@@ -228,35 +228,23 @@ export default function Home() {
 							<>
 								<div className="items-center justify-between">
 									<div className="">
-										<label
-											htmlFor="animal-type"
-											className="block text-sm font-normal text-gray-700"
-										>
-											Type of Animal
-										</label>
 										<input
 											type="text"
 											name="animal-type"
 											id=""
-											className="rounded-md border-0 pl-2 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
-											placeholder="e.g., wild cat"
+											className="w-1/2 rounded-full border-0 pl-3 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
+											placeholder="What kind of pet do you want..."
 											value={animalType}
 											onChange={(e) => setAnimalType(e.target.value)}
 										/>
 									</div>
 									<div className="mt-3">
-										<label
-											htmlFor="animal-color"
-											className="block text-sm font-normal text-gray-700"
-										>
-											Animal Color
-										</label>
 										<input
 											type="text"
 											name="animal-color"
 											id="animal-color"
-											className="rounded-md border-0 pl-2 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
-											placeholder="e.g., blue"
+											className="w-1/2 rounded-full border-0 pl-3 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
+											placeholder="Pet characteristics..."
 											value={animalColor}
 											onChange={(e) => setAnimalColor(e.target.value)}
 										/>
@@ -265,17 +253,17 @@ export default function Home() {
 								<div className="flex gap-x-5 mt-6">
 									<button
 										type="button"
-										className="items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-black bg-[#F1FEC6] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:black disabled:opacity-25"
+										className="w-1/2 items-center py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-black bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:black disabled:opacity-50"
 										onClick={triggerNewPetSequence}
 										disabled={(animalColor || animalType) === ""}
 									>
-										Generate Pet
+										Create your dream pet
 									</button>
 
 									{savable && (
 										<button
 											type="button"
-											className="items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#FA9F42] hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+											className="items-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-[#FA9F42] hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
 											onClick={savePet}
 											hidden={!savable}
 										>

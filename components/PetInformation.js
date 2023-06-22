@@ -5,7 +5,7 @@ import crown from "../assets/crown.svg";
 const PetInformation = ({ originStory }) => {
 	return (
 		<>
-			<h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:mt-10 relative">
+			<h1 className="w-2/3 text-xl font-bold tracking-tight text-gray-900 sm:mt-10 relative">
 				Is{" "}
 				<Image
 					src={crown}
@@ -19,7 +19,7 @@ const PetInformation = ({ originStory }) => {
 				</span>{" "}
 				the Big Fuzzy you were looking for?!{" "}
 			</h1>
-			<p className="text-gray-700 mt-3">
+			<p className="w-2/3 text-gray-700 mt-3 text-sm">
 				{originStory?.story || "Missing Information"}
 			</p>
 		</>
