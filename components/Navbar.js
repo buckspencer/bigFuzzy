@@ -7,6 +7,10 @@ import { createOrGetUser } from "@/utils";
 import logo from "../assets/logo.svg";
 import { useUser } from "@auth0/nextjs-auth0/client";
 
+const triggerPageReload = async () => {
+	window.location.reload();
+};
+
 const Navbar = () => {
 	const { user, error, isLoading } = useUser();
 
@@ -18,14 +22,14 @@ const Navbar = () => {
 			<div className="bg-[#D6E2EE] mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
 				<div className="relative flex h-16 items-center justify-between">
 					<div className="flex flex-shrink-0 items-center">
-						<Link href="/">
+						<button onClick={triggerPageReload}>
 							<Image
 								src={logo}
 								alt="Pet Boutique"
 								className=""
 								style={{ width: "auto", height: "2em" }}
 							/>
-						</Link>
+						</button>
 						{user && (
 							<>
 								<Link
