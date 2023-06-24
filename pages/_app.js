@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }) {
 
 	return (
 		<UserProvider>
-			<div className="xl:w-[1200px] m-auto bg-[#D6E2EE]">
+			<div className="bg-fuzzy-blue">
 				<Navbar />
 				<Component {...pageProps} />
 				<Footer />

@@ -201,7 +201,7 @@ export default function Home() {
 	}, [originStory, imageUrl]);
 
 	return (
-		<div className="bg-[#D6E2EE] ">
+		<div className="bg-fuzzy-blue">
 			<div className="mx-auto max-w-7xl px-6 lg:px-8">
 				<div className="mx-auto flex max-w-2xl flex-col items-center justify-between gap-16 lg:mx-0 lg:max-w-none lg:flex-row">
 					<div className="mx-auto mt-8 ml-8">
@@ -218,7 +218,7 @@ export default function Home() {
 							/>
 						)}
 					</div>
-					<div className="w-full lg:max-w-xl lg:flex-auto">
+					<div className="lg:max-w-xl lg:flex-auto">
 						{imageUrl && originStory.name ? (
 							<PetInformation originStory={originStory} />
 						) : (
