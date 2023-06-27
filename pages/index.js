@@ -202,9 +202,9 @@ export default function Home() {
 
 	return (
 		<div className="bg-fuzzy-blue">
-			<div className="mx-auto max-w-7xl px-6 lg:px-8">
-				<div className="mx-auto flex max-w-2xl flex-col items-center justify-between gap-16 lg:mx-0 lg:max-w-none lg:flex-row">
-					<div className="mx-auto mt-8 ml-8">
+			<div className="mx-auto px-6 ">
+				<div className="mx-auto lg:flex">
+					<div className="flex-none mx-auto mt-8 ml-8">
 						{petRequested ? (
 							<Loader />
 						) : (
@@ -212,13 +212,13 @@ export default function Home() {
 								src={imageUrl || petImage}
 								alt="Generated Pet Image"
 								className="bg-gray-50 border-double border-2"
-								width={400}
-								height={400}
+								width={500}
+								height={500}
 								priority
 							/>
 						)}
 					</div>
-					<div className="lg:max-w-xl lg:flex-auto">
+					<div className="mx-auto mt-12 lg:mt-6">
 						{imageUrl && originStory.name ? (
 							<PetInformation originStory={originStory} />
 						) : (
@@ -226,31 +226,35 @@ export default function Home() {
 						)}
 						<div className="mt-10">
 							<>
-								<div className="items-center justify-between">
-									<div className="">
-										<input
-											type="text"
-											name="animal-type"
-											id=""
-											className="w-1/2 rounded-full border-0 pl-3 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
-											placeholder="What kind of pet do you want..."
-											value={animalType}
-											onChange={(e) => setAnimalType(e.target.value)}
-										/>
-									</div>
-									<div className="mt-3">
-										<input
-											type="text"
-											name="animal-color"
-											id="animal-color"
-											className="w-1/2 rounded-full border-0 pl-3 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
-											placeholder="Pet characteristics..."
-											value={animalColor}
-											onChange={(e) => setAnimalColor(e.target.value)}
-										/>
-									</div>
-								</div>
-								<div className="flex gap-x-5 mt-6">
+								{imageUrl && originStory.name ? (
+									<></>
+								) : (
+									<>
+										<div className="text-center">
+											<input
+												type="text"
+												name="animal-type"
+												id=""
+												className="w-full lg:w-1/2 rounded-full border-0 pl-3 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
+												placeholder="What kind of pet do you want..."
+												value={animalType}
+												onChange={(e) => setAnimalType(e.target.value)}
+											/>
+										</div>
+										<div className="text-center mt-3">
+											<input
+												type="text"
+												name="animal-color"
+												id="animal-color"
+												className="w-full lg:w-1/2 rounded-full border-0 pl-3 py-1.5 focus:outline-gray-600 text-gray-600 placeholder:text-gray-400"
+												placeholder="Pet characteristics..."
+												value={animalColor}
+												onChange={(e) => setAnimalColor(e.target.value)}
+											/>
+										</div>
+									</>
+								)}
+								<div className="flex justify-center gap-x-5 mt-6">
 									<button
 										type="button"
 										className="w-1/2 items-center py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-black bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:black disabled:opacity-50"

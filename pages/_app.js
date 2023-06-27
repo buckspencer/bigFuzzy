@@ -19,7 +19,9 @@ export default function App({ Component, pageProps }) {
 		<UserProvider>
 			<div className="bg-fuzzy-blue">
 				<Navbar />
-				<Component {...pageProps} />
+				<div className="lg:pl-24 lg:py-24">
+					<Component {...pageProps} />
+				</div>
 				<Footer />
 			</div>
 		</UserProvider>
