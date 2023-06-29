@@ -7,19 +7,21 @@ import { useUser } from "@auth0/nextjs-auth0/client";
 const VisitationScreen = ({ petDetails }) => {
 	const modalRef = useRef();
 	const [chatHistory, setChatHistry] = useState([
-		{ user: false, message: `${petDetails.name} has missed you!` },
+		{ isUser: false, message: `${petDetails.name} has missed you!` },
 	]);
 	const [chatQuery, setChatQuery] = useState("");
 	const { user, error, isLoading } = useUser();
 	const [isSending, setIsSending] = useState(false);
 
-	const chatAvatar = (user) => {
-		return user ? user.picture : urlForImage(petDetails.image).width(50).url();
+	const chatAvatar = (isUser) => {
+		return isUser
+			? user.picture
+			: urlForImage(petDetails.image).width(50).url();
 	};
 
 	const handleChat = async () => {
 		setIsSending(true);
-
+		setChatHistory(true, chatQuery);
 		try {
 			const response = await fetch("/api/queryFuzzyChat", {
 				method: "POST",
@@ -50,8 +52,11 @@ const VisitationScreen = ({ petDetails }) => {
 		}, 1900); // Change the delay time as desired (in milliseconds)
 	};
 
-	const setChatHistory = (user, message) => {
-		setChatHistry((prevChatHistory) => [...prevChatHistory, { user, message }]);
+	const setChatHistory = (isUser, message) => {
+		setChatHistry((prevChatHistory) => [
+			...prevChatHistory,
+			{ isUser, message },
+		]);
 	};
 
 	return (
@@ -111,13 +116,13 @@ const VisitationScreen = ({ petDetails }) => {
 							{chatHistory.map((chat, index) => (
 								<div
 									key={index}
-									className={`chat ${user ? "chat-start" : "chat-end"}`}
+									className={`chat ${chat.isUser ? "chat-end" : "chat-start"}`}
 								>
 									<div className="chat-image avatar">
 										<div className="w-10 rounded-full">
 											<Image
 												className="inline-block h-10 w-10 rounded-full"
-												src={chatAvatar(chat.user)}
+												src={chatAvatar(chat.isUser)}
 												width={50}
 												height={50}
 												alt=""
