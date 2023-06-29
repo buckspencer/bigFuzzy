@@ -27,8 +27,8 @@ function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
 const HoldingScreen = (props) => {
-	const { petDetails } = props;
-	const [pet, setPet] = useState(petDetails[0]);
+	const { petInfo } = props;
+	const [pet, setPet] = useState(petInfo[0]);
 	const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
 
 	return (

@@ -12,7 +12,7 @@ export async function getServerSideProps({ params }) {
 
 	return {
 		props: {
-			petDetails: res.data,
+			petInfo: res.data,
 		},
 	};
 }

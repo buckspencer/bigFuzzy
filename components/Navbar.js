@@ -9,11 +9,8 @@ import { React } from "react";
 import clsx from "clsx";
 import { createOrGetUser } from "@/utils";
 import logo from "../assets/logo.svg";
+import { useRouter } from "next/router";
 import { useUser } from "@auth0/nextjs-auth0/client";
-
-const triggerPageReload = async () => {
-	window.location.reload();
-};
 
 const MobileNavIcon = ({ open }) => {
 	return (
@@ -103,6 +100,15 @@ const MobileNavigation = (user) => {
 
 const Navbar = () => {
 	const { user, error, isLoading } = useUser();
+	const router = useRouter();
+
+	const triggerPageReload = async () => {
+		if (router.asPath !== "/") {
+			router.push("/");
+		} else {
+			window.location.reload();
+		}
+	};
 
 	if (isLoading) return <div>Loading...</div>;
 	if (error) return <div>{error.message}</div>;

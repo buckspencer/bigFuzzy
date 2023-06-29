@@ -2,8 +2,8 @@ import React from "react";
 import VisitationScreen from "../../components/VisitationScreen";
 
 const Visitation = (props) => {
-	const { petDetails } = props;
-	return <VisitationScreen petDetails={petDetails} />;
+	const { petInfo } = props;
+	return <VisitationScreen petInfo={petInfo} />;
 };
 
 export async function getServerSideProps({ params }) {
@@ -16,7 +16,7 @@ export async function getServerSideProps({ params }) {
 
 	return {
 		props: {
-			petDetails: data,
+			petInfo: data,
 		},
 	};
 }

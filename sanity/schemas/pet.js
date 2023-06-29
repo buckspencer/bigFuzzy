@@ -21,6 +21,11 @@ export default {
 			type: "string",
 		},
 		{
+			name: "uniqueTrait",
+			title: "UniqueTrait",
+			type: "string",
+		},
+		{
 			name: "imageUrl",
 			title: "ImageUrl",
 			type: "string",

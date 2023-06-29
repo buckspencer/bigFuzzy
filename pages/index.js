@@ -90,7 +90,7 @@ export default function Home() {
 	const [recentPets, setRecentPets] = useState([]);
 	const [animalType, setAnimalType] = useState("");
 	const [animalColor, setAnimalColor] = useState("");
-	const [originStory, setOriginStory] = useState({});
+	const [petInfo, setPetInfo] = useState({});
 	const [typingText, setTypingText] = useState("Searching AI Verse...");
 	const [savable, setSavable] = useState(false);
 	const [imageUrl, setImageUrl] = useState("");
@@ -102,7 +102,7 @@ export default function Home() {
 		setImageUrl("");
 		setAnimalType("");
 		setAnimalColor("");
-		setOriginStory("");
+		setPetInfo("");
 		setSavable(false);
 	};
 
@@ -153,7 +153,7 @@ export default function Home() {
 	const getStory = async (animalType) => {
 		try {
 			const response = await Promise.race([
-				fetch(`/api/getPetOriginStory?animalType=${animalType}`),
+				fetch(`/api/getPetInfo?animalType=${animalType}`),
 				new Promise((_, reject) =>
 					setTimeout(() => reject(new Error("Timeout")), 45000)
 				),
@@ -165,7 +165,8 @@ export default function Home() {
 				triggerNewPetSequence();
 			}
 			const data = await response.json();
-			setOriginStory(data);
+			console.log(data);
+			setPetInfo(data);
 		} catch (error) {
 			console.error("Error fetching pet origin story:", error);
 			setTypingText("Big Fuzzy lost, reattempting...");
@@ -177,9 +178,10 @@ export default function Home() {
 		const pet = {
 			_type: "pet",
 			userId: user.sub,
-			name: originStory.name,
+			name: petInfo.name,
 			imageUrl: imageUrl,
-			originStory: originStory.story,
+			originStory: petInfo.story,
+			uniqueTrait: petInfo.uniqueTrait,
 		};
 
 		createPet(pet);
@@ -193,12 +195,12 @@ export default function Home() {
 
 	useEffect(() => {
 		fetchPetsAndUpdateState(setRecentPets);
-		if (originStory && Object.keys(originStory).length !== 0 && imageUrl) {
+		if (petInfo && Object.keys(petInfo).length !== 0 && imageUrl) {
 			setSavable(true);
 		} else {
 			setSavable(false);
 		}
-	}, [originStory, imageUrl]);
+	}, [petInfo, imageUrl]);
 
 	return (
 		<div className="bg-fuzzy-blue">
@@ -219,14 +221,14 @@ export default function Home() {
 						)}
 					</div>
 					<div className="mx-auto mt-12 lg:mt-6">
-						{imageUrl && originStory.name ? (
-							<PetInformation originStory={originStory} />
+						{imageUrl && petInfo.name ? (
+							<PetInformation petInfo={petInfo} />
 						) : (
 							<LandingScreen />
 						)}
 						<div className="mt-10">
 							<>
-								{imageUrl && originStory.name ? (
+								{imageUrl && petInfo.name ? (
 									<></>
 								) : (
 									<>
