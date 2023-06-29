@@ -1,8 +1,59 @@
+import React, { useRef, useState } from "react";
+
 import Image from "next/image";
-import React from "react";
 import { urlForImage } from "../sanity/lib/image";
+import { useUser } from "@auth0/nextjs-auth0/client";
 
 const VisitationScreen = ({ petDetails }) => {
+	const modalRef = useRef();
+	const [chatHistory, setChatHistry] = useState([
+		{ user: false, message: `${petDetails.name} has missed you!` },
+	]);
+	const [chatQuery, setChatQuery] = useState("");
+	const { user, error, isLoading } = useUser();
+	const [isSending, setIsSending] = useState(false);
+
+	const chatAvatar = (user) => {
+		return user ? user.picture : urlForImage(petDetails.image).width(50).url();
+	};
+
+	const handleChat = async () => {
+		setIsSending(true);
+
+		try {
+			const response = await fetch("/api/queryFuzzyChat", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ petInfo: petDetails, message: chatQuery }),
+			});
+
+			if (response.ok) {
+				const resp = await response.json();
+				setChatHistory(false, resp.trim());
+				setIsSending(false);
+			} else {
+				console.error("Failed to engage chat:", resp.statusText);
+			}
+		} catch (error) {
+			console.error("Error creating entering chat:", error);
+		}
+	};
+
+	const handleLeave = (modal) => {
+		// Add a delay using setTimeout
+		setChatHistory(false, "Goodbye, Thank you for visiting me!");
+		setTimeout(() => {
+			// Close the modal
+			modal.close();
+		}, 1900); // Change the delay time as desired (in milliseconds)
+	};
+
+	const setChatHistory = (user, message) => {
+		setChatHistry((prevChatHistory) => [...prevChatHistory, { user, message }]);
+	};
+
 	return (
 		<div className="relative bg-fuzzy-blue">
 			<div className="relative h-80 overflow-hidden bg-gray md:absolute md:left-0 md:h-full md:w-1/3 lg:w-1/2">
@@ -47,13 +98,86 @@ const VisitationScreen = ({ petDetails }) => {
 						{petDetails.originStory}
 					</p>
 					<div className="mt-8">
-						<a
+						<button
 							href="#"
-							className="inline-flex rounded-md bg-white/10 px-3.5 py-2.5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-white/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+							className="inline-flex rounded-md bg-slate-950 px-3.5 py-2.5 text-sm font-semibold text-slate-50 shadow-sm hover:bg-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+							onClick={() => window.my_modal_4.showModal()}
 						>
-							talk to {petDetails.name}
-						</a>
+							Talk to {petDetails.name}
+						</button>
 					</div>
+					<dialog ref={modalRef} id="my_modal_4" className="modal">
+						<form method="dialog" className="modal-box w-11/12 max-w-5xl">
+							{chatHistory.map((chat, index) => (
+								<div
+									key={index}
+									className={`chat ${user ? "chat-start" : "chat-end"}`}
+								>
+									<div className="chat-image avatar">
+										<div className="w-10 rounded-full">
+											<Image
+												className="inline-block h-10 w-10 rounded-full"
+												src={chatAvatar(chat.user)}
+												width={50}
+												height={50}
+												alt=""
+											/>
+										</div>
+									</div>
+									<div className="chat-bubble">{chat.message}</div>
+								</div>
+							))}
+							{isSending && (
+								<div className="chat chat-start">
+									<div className="chat-image avatar">
+										<div className="w-10 rounded-full">
+											<Image
+												className="inline-block h-10 w-10 rounded-full"
+												src={chatAvatar(false)}
+												width={50}
+												height={50}
+												alt=""
+											/>
+										</div>
+									</div>
+									<div className="chat-bubble">
+										<span className="loading loading-dots loading-md"></span>
+									</div>
+								</div>
+							)}
+							<div className="modal-action">
+								<input
+									type="chatQuery"
+									name="chatQuery"
+									id="chatQuery"
+									className="input w-full max-w-4xl"
+									placeholder="Speak to me!"
+									value={chatQuery}
+									onChange={(e) => setChatQuery(e.target.value)}
+								/>
+								<button
+									type="submit"
+									className="inline-flex items-center rounded-md bg-slate-950 px-3 py-2 text-sm font-semibold text-slate-50 shadow-sm hover:bg-slate-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+									onClick={(event) => {
+										event.preventDefault();
+										handleChat();
+										setChatQuery("");
+									}}
+								>
+									Submit
+								</button>
+								<button
+									className="btn"
+									onClick={(event) => {
+										event.preventDefault();
+										handleLeave(modalRef.current);
+									}}
+								>
+									Leave
+								</button>
+							</div>
+						</form>
+					</dialog>
 				</div>
 			</div>
 		</div>

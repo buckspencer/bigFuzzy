@@ -15,7 +15,7 @@ const triggerPageReload = async () => {
 	window.location.reload();
 };
 
-function MobileNavIcon({ open }) {
+const MobileNavIcon = ({ open }) => {
 	return (
 		<svg
 			aria-hidden="true"
@@ -40,17 +40,17 @@ function MobileNavIcon({ open }) {
 			/>
 		</svg>
 	);
-}
+};
 
-function MobileNavLink({ href, children }) {
+const MobileNavLink = ({ href, children }) => {
 	return (
 		<Popover.Button as={Link} href={href} className="block w-full p-2">
 			{children}
 		</Popover.Button>
 	);
-}
+};
 
-function MobileNavigation(user) {
+const MobileNavigation = (user) => {
 	return (
 		<Popover>
 			<Popover.Button
@@ -99,7 +99,7 @@ function MobileNavigation(user) {
 			</Transition.Root>
 		</Popover>
 	);
-}
+};
 
 const Navbar = () => {
 	const { user, error, isLoading } = useUser();
