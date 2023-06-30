@@ -213,7 +213,7 @@ export default function Home() {
 							<Image
 								src={imageUrl || petImage}
 								alt="Generated Pet Image"
-								className="bg-gray-50 border-double border-2"
+								className="bg-gray-50 rounded-lg border-double border-2"
 								width={500}
 								height={500}
 								priority

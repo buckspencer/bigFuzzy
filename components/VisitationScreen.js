@@ -61,7 +61,7 @@ const VisitationScreen = ({ petInfo }) => {
 		<div className="relative bg-fuzzy-blue w-4/5">
 			<div className="mb-8 md:mt-20 md:absolute md:left-8 md:h-full md:w-1/3 lg:w-1/2">
 				<Image
-					className="object-cover"
+					className="bg-gray-50 rounded-lg border-double border-2"
 					src={urlForImage(petInfo.image).width(600).url()}
 					alt="fuzzy-image"
 					width={600}

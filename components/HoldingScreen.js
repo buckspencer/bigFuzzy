@@ -64,7 +64,7 @@ const HoldingScreen = (props) => {
 					<Image
 						src={urlForImage(pet.image).width(500).url()}
 						alt="Generated Pet Image"
-						className="h-full w-full object-cover object-center"
+						className="h-full w-full rounded-lg object-cover object-center"
 						width={500}
 						height={500}
 						priority
