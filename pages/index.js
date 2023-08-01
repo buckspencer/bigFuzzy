@@ -174,6 +174,10 @@ export default function Home() {
 		}
 	};
 
+	const loaderProp =({ src }) => {
+		return src;
+	}
+
 	const savePet = () => {
 		const pet = {
 			_type: "pet",
@@ -217,6 +221,7 @@ export default function Home() {
 								width={500}
 								height={500}
 								priority
+								loader={loaderProp}
 							/>
 						)}
 					</div>
