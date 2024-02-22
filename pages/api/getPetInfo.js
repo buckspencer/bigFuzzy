@@ -10,7 +10,7 @@ export default async function getPetInfo(req, res) {
   that the royal animal likes to enjoy.`;
 
 	const arg = {
-		model: "text-davinci-003",
+		model: "davinci-002",
 		prompt: prompt,
 		temperature: 0.3,
 		max_tokens: 500,
